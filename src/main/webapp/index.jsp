@@ -8,7 +8,7 @@
 	<title>Home</title>
 </head>
 <body>
-	<h1>Hello World! test</h1>
+	<h1>Hello World! test 2</h1>
 	<c:if test="${not empty param.name}">
 		<p>Name: ${param.name}</p>
 	</c:if>
