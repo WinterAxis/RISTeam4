@@ -1,6 +1,6 @@
+/* Legacy File - Ignore
 import java.io.*;		//Legacy File - Ignore
 import java.sql.*;
-import java.util.Scanner;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,17 +11,9 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/addPatientTake2")
 public class addPatientTake2 extends HttpServlet {
-
-	Connection con = null;
-	Statement stmt = null;
 	
-	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-	static final String DB_URL = "jdbc:mysql://localhost:3306/RISdb";
-	static final String USER = "root";
-	static final String PASS = "";
-	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+	{
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 		doPost(request, response);
 	}
@@ -68,6 +60,7 @@ public class addPatientTake2 extends HttpServlet {
 	}
 }
 
+*/
 /*@WebServlet("/addPatientTake2")
 
 private DataSource dataSource;
