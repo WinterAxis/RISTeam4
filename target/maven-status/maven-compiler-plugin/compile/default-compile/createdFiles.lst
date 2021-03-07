@@ -1,3 +1,4 @@
-addPatientTake2.class
 addPatient.class
+dbConnector.class
 Hello.class
+displayPatients.class

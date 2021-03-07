@@ -1,6 +1,7 @@
+//addPatient.java
+//adds one patient entry into Patients table
 import java.io.*;
 import java.sql.*;
-import java.util.Scanner;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,13 +13,12 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/addPatient")
 public class addPatient extends HttpServlet {
 
-	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-	static final String DB_URL = "jdbc:mysql://localhost:3306/RISdb";
-	static final String USER = "root";
-	static final String PASS = "";
-	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doPost(request, response);
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
+		//Do POST to pass patient data
+		PrintWriter out = response.getWriter();
+		out.println("This page is intended to be accessed through a POST with patient data to pass to server. Try addPatient.jsp");
+		//doPost(request, response);
 	}
 
 	//public static void main(String[] args) 
@@ -28,34 +28,29 @@ public class addPatient extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		System.out.println("Hello from Servlet");
 		
-		Connection conn = null;
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
-		
 		try
 		{
-			System.out.println("Connecting to database...");
-			Class.forName(JDBC_DRIVER);
-			conn = DriverManager.getConnection(DB_URL,USER,PASS);
-			
+			Connection conn = dbConnector.dbConnect();
+			PreparedStatement stmt = null;
+			ResultSet rs = null;	//No results needed for INSERT
+
 			String query = "INSERT INTO Patients (PatientName) VALUES (?)";
 			stmt = conn.prepareStatement(query);
 			stmt.setString(1, request.getParameter("patientName"));	//getParameter just strings, must cast for other
 			stmt.executeUpdate();		//executeUpdate() for INSERT,
-			
+
 			System.out.println("Added Successfully.");
 			out.println("Added Successfully.");
 			
 			//Closes open DB communication
 			stmt.close();
-			conn.close();
-	
+			conn.close();	
 		}catch(SQLException se){
 			out.println("SQL Error");
 			//Handle errors for JDBC
 			se.printStackTrace();
 		}catch(Exception e){
-			out.println("Likely Class error");
+			out.println("Likely Class error or SQL server not running");
 			//Handle errors for Class.forName
 			e.printStackTrace();
 		} 
