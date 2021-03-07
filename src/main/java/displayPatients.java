@@ -31,16 +31,16 @@ public class displayPatients extends HttpServlet {
 			PreparedStatement stmt = null;
 			ResultSet rs = null;
 		
-			String query = "select * from Patients";
+			String query = "select * from patient";
 			stmt = conn.prepareStatement(query);
 			//stmt.setString(1, "*");
 			
 			
 			rs = stmt.executeQuery();	//executeQuery() for SELECT
-			out.println("Patient List\nName\tID");
+			out.println("Patient List\nFirst\tLast\tID");
 			while(rs.next())
 			{
-				out.println(rs.getString("PatientName")+"\t"+rs.getInt("PatientID"));
+				out.println(rs.getString("first_name")+"\t"+rs.getString("last_name")+"\t"+rs.getInt("patient_id"));
 			}
 			
 			//Closes open DB communication
