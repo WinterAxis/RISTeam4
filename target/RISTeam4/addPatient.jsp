@@ -84,14 +84,14 @@
 							</select>
 						</div>
 						<div class="col">
-							<label class="form-check-label" for="xraydye">Xraydye Allergy</label>
+							<label class="form-check-label" for="xraydye">X-ray Dye Allergy</label>
 							<select class="form-control" id="xraydye"  name="has_allergy_xraydye">
 								<option value="False" selected>No</option>
 								<option value="True">Yes</option>
 							</select>
 						</div>
 						<div class="col">
-							<label class="form-check-label" for="mridye">Mridye Allergy</label>
+							<label class="form-check-label" for="mridye">MRI Dye Allergy</label>
 							<select class="form-control" id="mridye"  name="has_allergy_mridye">
 								<option value="False" selected>No</option>
 								<option value="True">Yes</option>
