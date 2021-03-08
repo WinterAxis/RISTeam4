@@ -9,6 +9,7 @@
 </head>
 <body>
 	<h1>Hello World! test 2</h1>
+	<a href="addPatient.jsp">add patient</a>
 	<c:if test="${not empty param.name}">
 		<p>Name: ${param.name}</p>
 	</c:if>

@@ -1,4 +1,4 @@
-addPatient.class
-dbConnector.class
+database\addPatient.class
+database\dbConnector.class
 Hello.class
-displayPatients.class
+database\displayPatients.class
