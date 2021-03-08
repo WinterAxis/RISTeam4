@@ -44,8 +44,9 @@
         <% 
         if (request.getParameter("submit") != null) {
           try {
-            String query = "SELECT patient_id, first_name, last_name, birthday, phone_number, email FROM patient WHERE birthday = '"+request.getParameter("DOB")+"'";
+            String query = "SELECT patient_id, first_name, last_name, birthday, phone_number, email FROM patient WHERE birthday = ?";
             stmt = conn.prepareStatement(query);
+            stmt.setString(1, request.getParameter("DOB"));
             rs = stmt.executeQuery();
             if (!rs.isBeforeFirst()) {
         %>
@@ -75,22 +76,22 @@
         %>
             <tr>
               <td>
-                <a class="orderlink" href="/patient/25/new-order"><%=rs.getString("first_name") %></a>
+                <a class="orderlink" href="#"><%=rs.getString("first_name") %></a>
                 <div class="text-muted small d-md-none">
                         Birth Date:<br><%=rs.getDate("birthday") %>
                 </div>
               </td>
               <td>
-                <a class="orderlink" href="/patient/25/new-order"><%=rs.getString("last_name") %></a>
+                <a class="orderlink" href="#"><%=rs.getString("last_name") %></a>
                 <div class="d-md-none">
-                  <a class="text-muted small" href="/patient/25/">See more</a>
+                  <a class="text-muted small" href="#">See more</a>
                 </div>
               </td>
               <td class="d-none d-md-table-cell"><%=rs.getDate("birthday") %></td>
               <td class="d-none d-md-table-cell"><%=rs.getString("phone_number") %></td>
               <td class="d-none d-md-table-cell"><%=rs.getString("email") %></td>
               <td class="text-center d-none d-md-table-cell">
-                  <a class="orderlink " href="/patient/25/">
+                  <a class="patientlink" href="#">
                       <i class="fas fa-info-circle" aria-hidden="true"></i>
                   </a>
               </td>

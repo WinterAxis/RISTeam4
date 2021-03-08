@@ -44,13 +44,13 @@
         <% 
         if (request.getParameter("submit") != null) {
           try {
-            String query = "SELECT patient_id, first_name, last_name, birthday, phone_number, email FROM patient WHERE birthday = '"+request.getParameter("DOB")+"'";
+            String query = "SELECT patient_id, first_name, last_name, birthday, phone_number, email FROM patient WHERE birthday = ?";
             stmt = conn.prepareStatement(query);
+            stmt.setString(1, request.getParameter("DOB"));
             rs = stmt.executeQuery();
             if (!rs.isBeforeFirst()) {
         %>
         <div class='test-center'>No Patients with a <%= request.getParameter("DOB")%> Date of Birth</div>
-        <div class='test-center'><%= query%></div>
         <%
             } else {
 
