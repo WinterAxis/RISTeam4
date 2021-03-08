@@ -10,19 +10,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw==" crossorigin="anonymous" />
-	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js" integrity="sha512-T/tUfKSV1bihCnd+MxKD0Hm1uBBroVYBOYSk1knyvQ9VyZJpc/ALb4P0r6ubwVPSGB2GvjeoMAJJImBG12TiaQ==" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js" integrity="sha512-pHVGpX7F/27yZ0ISY+VVjyULApbDlD0/X0rgGbTqCE7WFW5MezNTWG/dnhtbBuICzsd0WQPgpE4REBLv+UqChw==" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>		
+	<%-- include shared head links --%>
+	<jsp:include page="\headLinks.jsp" />		
 	<meta charset="UTF-8">
 	<title>Patient Portal: Add</title>
 </head>
 <body>
 	<div class="container mt-4">
-		<div class="card">
+		<div class="display-4 text-center">
+      New Patient Form
+    </div>
+		<div class="card mt-4">
+			<div class="card-header">
+				Add Patient Information
+			</div>
 			<div class="card-body">
 				<form action="addPatient" name="patient" method="post">
 					<div class="form-row">
@@ -68,7 +69,7 @@
 						</div>
 						<div class="col" id="datepicker">
 							<label for="birthday">Birthday</label>
-              <input type='text' class="form-control datepicker" id="birthday" name="birthday" placeholder="yyyy/mm/dd" />
+              <input type='text' class="form-control datepicker" id="birthday" name="birthday" placeholder="yyyy-mm-dd" />
 						</div>
 						<div class="col">
 							<label for="phone_number">Phone Number</label>
@@ -106,7 +107,7 @@
 						</div>
 					</div>
 					<div class="form-row mt-2">
-						<label for="latex">Notes</label>
+						<label for="notes">Notes</label>
 						<textarea class="form-control" id="notes" rows="3" maxlength="1000" name="notes"></textarea>
 					</div>
 					<div class="form-row mt-2">
@@ -119,9 +120,9 @@
 	<script>
 		$(document).ready(function(){
 			$('#phone_number').mask('000 000 0000');
-			$('#birthday').mask('0000/00/00');
+			$('#birthday').mask('0000-00-00');
 			$('#datepicker input').datepicker({
-				format: "yyyy/mm/dd",
+				format: "yyyy-mm-dd",
 				orientation: "bottom right",
 				calendarWeeks: true
 			});
