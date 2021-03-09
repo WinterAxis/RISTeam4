@@ -1,6 +1,7 @@
-package database;
 //addPatient.java
 //adds one patient entry into Patients table
+package database;
+
 import java.io.*;
 import java.sql.*;
 import java.util.Enumeration;
@@ -30,7 +31,7 @@ public class addPatient extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		System.out.println("Hello from Servlet");
 
-		// outputs the request
+		// outputs the request - Commented for now
 		Enumeration<String> params = request.getParameterNames();
 		while(params.hasMoreElements()){
 			String paramName = params.nextElement();
@@ -38,21 +39,34 @@ public class addPatient extends HttpServlet {
 		}
 		try
 		{
-			Connection conn = dbConnector.dbConnect();
+			Connection conn = database.dbConnector.dbConnect();
 			PreparedStatement stmt = null;
-			ResultSet rs = null;	//No results needed for INSERT
+		//	ResultSet rs = null;		//No results needed for INSERT
 			
-			// String query = "INSERT INTO patient (doctor_id, first_name, middle_name, last_name, email, birthday, has_allergy_asthma, has_allergy_xraydye, has_allergy_mridye, has_allergy_latex, notes) VALUES (?)";
-			// stmt = conn.prepareStatement(query);
-			// stmt.setString(1, request.getParameter("patientName"));	//getParameter just strings, must cast for other
-			// stmt.executeUpdate();		//executeUpdate() for INSERT,
+			//Associates SQL attribute data with form input data from addPatient.jsp
+			//getParameter() returns a String, so numbers and booleans must be casted
+			String query = "INSERT INTO patient (doctor_id, first_name, middle_name, last_name, email, birthday, has_allergy_asthma, has_allergy_xraydye, has_allergy_mridye, has_allergy_latex, notes) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+			stmt = conn.prepareStatement(query);
+			stmt.setInt(1, Integer.parseInt(request.getParameter("doctor_id")));	//getParameter just strings, must cast for other
+			stmt.setString(2, request.getParameter("first_name"));
+			stmt.setString(3, request.getParameter("middle_name"));
+			stmt.setString(4, request.getParameter("last_name"));
+			stmt.setString(5, request.getParameter("email"));
+			stmt.setString(6, request.getParameter("birthday"));
+			stmt.setBoolean(7, Boolean.parseBoolean(request.getParameter("has_allergy_asthma")));
+			stmt.setBoolean(8, Boolean.parseBoolean(request.getParameter("has_allergy_xraydye")));
+			stmt.setBoolean(9, Boolean.parseBoolean(request.getParameter("has_allergy_mridye")));
+			stmt.setBoolean(10, Boolean.parseBoolean(request.getParameter("has_allergy_latex")));
+			stmt.setString(11, request.getParameter("notes"));
+		//	stmt.setString(12, request.getParameter("phone_number"));		//TODO: No Phone # attribute in db
+			stmt.executeUpdate();		//executeUpdate() for INSERT
 
-			// System.out.println("Added Successfully.");
-			// out.println("Added Successfully.");
+			System.out.println("Added Successfully.");
+			out.println("Added Successfully.");
 			
 			//Closes open DB communication
-			// stmt.close();
-			// conn.close();	
+			stmt.close();
+			conn.close();	
 		}catch(SQLException se){
 			out.println("SQL Error");
 			//Handle errors for JDBC
@@ -61,9 +75,12 @@ public class addPatient extends HttpServlet {
 			out.println("Likely Class error or SQL server not running");
 			//Handle errors for Class.forName
 			e.printStackTrace();
-		} 
-		
+		}
+				
 		out.println("Goodbye from Servlet");
 		System.out.println("Goodbye!");
+
+	//	response.sendRedirect(request.getContextPath() + "/addOrder.jsp?pid=" + ""); TODO: ADD patientID
+
 	}
 }

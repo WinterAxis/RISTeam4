@@ -134,61 +134,61 @@
 				Order Information
 			</div>
 			<div class="card-body">
-        <form action="addPatient" name="patient" method="post"></form>
+        <form action="addOrder.java" name="order" method="post"></form>
       </div>
     </div>
 	</div>
 	<script>
 		$(document).ready(function(){
-			$('#phone_number').mask('000 000 0000');
-			$('#birthday').mask('0000-00-00');
-			$('#datepicker input').datepicker({
-				format: "yyyy-mm-dd",
-				orientation: "bottom right",
-				calendarWeeks: true
-			});
+			// $('#phone_number').mask('000 000 0000');
+			// $('#birthday').mask('0000-00-00');
+			// $('#datepicker input').datepicker({
+			// 	format: "yyyy-mm-dd",
+			// 	orientation: "bottom right",
+			// 	calendarWeeks: true
+			// });
 
-			$("form[name='patient']").validate({
-				// Specify validation rules
-				rules: {
-					// The key name on the left side is the name attribute
-					// of an input field. Validation rules are defined
-					// on the right side
-					first_name: "required",
-					last_name: "required",
-					email: {
-						required: true,
-						email: true
-					},
-					birthday: {
-						required: true,
-						minlength: 10
-					},
-					phone_number: {
-						required: true,
-						minlength: 12
-					}
-				},
-				// Specify validation error messages
-				messages: {
-					firstname: "Please enter your first name",
-					lastname: "Please enter your last name",
-					email: "Please enter a valid email address",
-					birthday: {
-						required: "Please provide a birthday",
-						minlength: "Birthday incomplete"
-					},
-					phone_number: {
-						required: "Please provide a phone number",
-						minlength: "Phone number incomplete"
-					},
-				},
-				// Make sure the form is submitted to the destination defined
-				// in the "action" attribute of the form when valid
-				submitHandler: function(form) {
-					form.submit();
-				}
-			});
+			// $("form[name='patient']").validate({
+			// 	// Specify validation rules
+			// 	rules: {
+			// 		// The key name on the left side is the name attribute
+			// 		// of an input field. Validation rules are defined
+			// 		// on the right side
+			// 		first_name: "required",
+			// 		last_name: "required",
+			// 		email: {
+			// 			required: true,
+			// 			email: true
+			// 		},
+			// 		birthday: {
+			// 			required: true,
+			// 			minlength: 10
+			// 		},
+			// 		phone_number: {
+			// 			required: true,
+			// 			minlength: 12
+			// 		}
+			// 	},
+			// 	// Specify validation error messages
+			// 	messages: {
+			// 		firstname: "Please enter your first name",
+			// 		lastname: "Please enter your last name",
+			// 		email: "Please enter a valid email address",
+			// 		birthday: {
+			// 			required: "Please provide a birthday",
+			// 			minlength: "Birthday incomplete"
+			// 		},
+			// 		phone_number: {
+			// 			required: "Please provide a phone number",
+			// 			minlength: "Phone number incomplete"
+			// 		},
+			// 	},
+			// 	// Make sure the form is submitted to the destination defined
+			// 	// in the "action" attribute of the form when valid
+			// 	submitHandler: function(form) {
+			// 		form.submit();
+			// 	}
+			// });
 		});
 		
 	</script>
