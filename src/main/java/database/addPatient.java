@@ -45,7 +45,7 @@ public class addPatient extends HttpServlet {
 			
 			//Associates SQL attribute data with form input data from addPatient.jsp
 			//getParameter() returns a String, so numbers and booleans must be casted
-			String query = "INSERT INTO patient (doctor_id, first_name, middle_name, last_name, email, birthday, has_allergy_asthma, has_allergy_xraydye, has_allergy_mridye, has_allergy_latex, notes) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+			String query = "INSERT INTO patient (doctor_id, first_name, middle_name, last_name, email, birthday, phone_number, has_allergy_asthma, has_allergy_xraydye, has_allergy_mridye, has_allergy_latex, notes) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
 			stmt = conn.prepareStatement(query);
 			stmt.setInt(1, Integer.parseInt(request.getParameter("doctor_id")));	//getParameter just strings, must cast for other
 			stmt.setString(2, request.getParameter("first_name"));
@@ -53,12 +53,13 @@ public class addPatient extends HttpServlet {
 			stmt.setString(4, request.getParameter("last_name"));
 			stmt.setString(5, request.getParameter("email"));
 			stmt.setString(6, request.getParameter("birthday"));
-			stmt.setBoolean(7, Boolean.parseBoolean(request.getParameter("has_allergy_asthma")));
-			stmt.setBoolean(8, Boolean.parseBoolean(request.getParameter("has_allergy_xraydye")));
-			stmt.setBoolean(9, Boolean.parseBoolean(request.getParameter("has_allergy_mridye")));
-			stmt.setBoolean(10, Boolean.parseBoolean(request.getParameter("has_allergy_latex")));
-			stmt.setString(11, request.getParameter("notes"));
-		//	stmt.setString(12, request.getParameter("phone_number"));		//TODO: No Phone # attribute in db
+			stmt.setString(7, request.getParameter("phone_number"));
+			stmt.setBoolean(8, Boolean.parseBoolean(request.getParameter("has_allergy_asthma")));
+			stmt.setBoolean(9, Boolean.parseBoolean(request.getParameter("has_allergy_xraydye")));
+			stmt.setBoolean(10, Boolean.parseBoolean(request.getParameter("has_allergy_mridye")));
+			stmt.setBoolean(11, Boolean.parseBoolean(request.getParameter("has_allergy_latex")));
+			stmt.setString(12, request.getParameter("notes"));
+			
 			stmt.executeUpdate();		//executeUpdate() for INSERT
 
 			System.out.println("Added Successfully.");

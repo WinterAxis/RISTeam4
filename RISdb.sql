@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 07, 2021 at 02:21 AM
+-- Generation Time: Mar 09, 2021 at 10:54 PM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 7.4.15
 
@@ -91,6 +91,7 @@ CREATE TABLE `patient` (
   `last_name` varchar(25) NOT NULL,
   `email` varchar(150) NOT NULL,
   `birthday` date NOT NULL,
+  `phone_number` varchar(32) NOT NULL,
   `has_allergy_asthma` tinyint(1) NOT NULL,
   `has_allergy_xraydye` tinyint(1) NOT NULL,
   `has_allergy_mridye` tinyint(1) NOT NULL,
@@ -102,8 +103,9 @@ CREATE TABLE `patient` (
 -- Dumping data for table `patient`
 --
 
-INSERT INTO `patient` (`patient_id`, `doctor_id`, `first_name`, `middle_name`, `last_name`, `email`, `birthday`, `has_allergy_asthma`, `has_allergy_xraydye`, `has_allergy_mridye`, `has_allergy_latex`, `notes`) VALUES
-(1, 3, 'James', NULL, 'Nobody', 'nbody@gmail.com', '2020-10-01', 0, 1, 0, 0, 'Is a nobody.');
+INSERT INTO `patient` (`patient_id`, `doctor_id`, `first_name`, `middle_name`, `last_name`, `email`, `birthday`, `phone_number`, `has_allergy_asthma`, `has_allergy_xraydye`, `has_allergy_mridye`, `has_allergy_latex`, `notes`) VALUES
+(1, 3, 'James', NULL, 'Nobody', 'nbody@gmail.com', '2020-10-01', '345 341 4151', 0, 1, 0, 0, 'Is a nobody.'),
+(3, 4, 'Doug', NULL, 'Smith', 'smith@gmail.com', '2020-10-01', '345 262 2253', 1, 1, 0, 0, '');
 
 -- --------------------------------------------------------
 
@@ -193,7 +195,8 @@ CREATE TABLE `user` (
 INSERT INTO `user` (`user_id`, `role_id`, `username`, `password`, `first_name`, `middle_name`, `last_name`, `email`) VALUES
 (1, 3, 'tech1', 'shouldbesha256hash', 'Jerry', 'd', 'Marsh', 'Jmarsh@gmail.com'),
 (2, 4, 'Radio1', 'shouldbesha256hash', 'Dan', 'Maven', 'Smith', 'DSmith@gmail.com'),
-(3, 1, 'doctor1', 'shouldbesha256hash', 'Tom', '', 'Doctor', 'doctor@Gmail.com');
+(3, 1, 'doctor1', 'shouldbesha256hash', 'Tom', '', 'Doctor', 'doctor@Gmail.com'),
+(4, 1, 'doctor2', 'hash', 'Jane', '', 'Foster', 'JFoster@gmail.com');
 
 --
 -- Indexes for dumped tables
@@ -282,7 +285,7 @@ ALTER TABLE `order`
 -- AUTO_INCREMENT for table `patient`
 --
 ALTER TABLE `patient`
-  MODIFY `patient_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `patient_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `role`
@@ -306,7 +309,7 @@ ALTER TABLE `team`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Constraints for dumped tables
