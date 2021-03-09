@@ -51,11 +51,8 @@
             if (!rs.isBeforeFirst()) {
         %>
         <div class='test-center'>No Patients with a <%= request.getParameter("DOB")%> Date of Birth</div>
-        <div class='test-center'><%= query%></div>
         <%
             } else {
-
-            
         %>
         <table class="table">
           <thead>

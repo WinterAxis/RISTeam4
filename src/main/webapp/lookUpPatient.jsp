@@ -53,8 +53,6 @@
         <div class='test-center'>No Patients with a <%= request.getParameter("DOB")%> Date of Birth</div>
         <%
             } else {
-
-            
         %>
         <table class="table">
           <thead>
