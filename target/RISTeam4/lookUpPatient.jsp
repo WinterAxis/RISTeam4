@@ -63,7 +63,7 @@
                 <th scope="col" class="d-none d-md-table-cell">Phone Number</th>
                 <th scope="col" class="d-none d-md-table-cell">Email</th>
                 <th scope="col" class="d-none d-md-table-cell text-muted">
-                    <i class="fas fa-info" aria-hidden="true"></i>
+                  <i class="fas fa-info"></i>
                 </th>
             </tr>
           </thead>
@@ -73,23 +73,23 @@
         %>
             <tr>
               <td>
-                <a class="orderlink" href="#"><%=rs.getString("first_name") %></a>
+                <a class="orderlink" href="addOrder.jsp?pid=<%=rs.getString("patient_id") %>"><%=rs.getString("first_name") %></a>
                 <div class="text-muted small d-md-none">
                         Birth Date:<br><%=rs.getDate("birthday") %>
                 </div>
               </td>
               <td>
-                <a class="orderlink" href="#"><%=rs.getString("last_name") %></a>
+                <a class="orderlink" href="addOrder.jsp?pid=<%=rs.getString("patient_id") %>"><%=rs.getString("last_name") %></a>
                 <div class="d-md-none">
-                  <a class="text-muted small" href="#">See more</a>
+                  <a class="text-muted small" href="patientHistory.jsp?pid=<%=rs.getString("patient_id") %>">See more</a>
                 </div>
               </td>
               <td class="d-none d-md-table-cell"><%=rs.getDate("birthday") %></td>
               <td class="d-none d-md-table-cell"><%=rs.getString("phone_number") %></td>
               <td class="d-none d-md-table-cell"><%=rs.getString("email") %></td>
               <td class="text-center d-none d-md-table-cell">
-                  <a class="patientlink" href="#">
-                      <i class="fas fa-info-circle" aria-hidden="true"></i>
+                  <a class="patientlink" href="patientHistory.jsp?pid=<%=rs.getString("patient_id") %>">
+                    <i class="fas fa-info-circle"></i>
                   </a>
               </td>
             </tr>
