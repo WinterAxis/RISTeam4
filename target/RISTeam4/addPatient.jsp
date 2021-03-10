@@ -73,7 +73,7 @@
 						</div>
 						<div class="col">
 							<label for="phone_number">Phone Number</label>
-							<input type="text" name="phone_number" class="form-control input-phone" autocomplete="off" maxlength="32" id="phone_number">
+							<input type="text" class="form-control input-phone" id="phone_number" name="phone_number" maxlength="32" placeholder="### ### ####" >
 						</div>
 					</div>
 					<div class="form-row mt-2">
