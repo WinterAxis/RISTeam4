@@ -16,6 +16,8 @@
 	<title>Patient Portal: Look Up</title>
 </head>
 <body>
+  <%-- include shared nav bar --%>
+	<jsp:include page="\navBar.jsp" />
 	<div class="container mt-4">
     <div class="display-4 text-center">
       Patient Lookup Table

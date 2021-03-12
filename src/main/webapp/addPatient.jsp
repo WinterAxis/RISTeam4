@@ -16,6 +16,8 @@
 	<title>Patient Portal: Add</title>
 </head>
 <body>
+	<%-- include shared nav bar --%>
+	<jsp:include page="\navBar.jsp" />
 	<div class="container mt-4">
 		<div class="display-4 text-center">
       New Patient Form
@@ -28,8 +30,9 @@
 				<form action="addPatient" name="patient" method="post">
 					<div class="form-row">
 						<div class="col">
-							<label class="form-check-label" for="doctor_id">Refering Physician</label>
+							<label for="doctor_id">Refering Physician</label>
 							<select class="form-control" id="doctor_id"  name="doctor_id">
+								<option value="">---------</option>
 								<% 
 								try{
 									String query = "SELECT user_id, first_name, last_name FROM user WHERE role_id = 1";
@@ -133,6 +136,10 @@
 					// The key name on the left side is the name attribute
 					// of an input field. Validation rules are defined
 					// on the right side
+					doctor_id: {
+						required: true,
+						minlength: 1
+					},
 					first_name: "required",
 					last_name: "required",
 					email: {
@@ -150,6 +157,7 @@
 				},
 				// Specify validation error messages
 				messages: {
+					doctor_id: "Please select your referring physician",
 					firstname: "Please enter your first name",
 					lastname: "Please enter your last name",
 					email: "Please enter a valid email address",

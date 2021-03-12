@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 09, 2021 at 10:54 PM
+-- Generation Time: Mar 13, 2021 at 12:22 AM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 7.4.15
 
@@ -64,18 +64,29 @@ INSERT INTO `modality` (`modality_id`, `name`) VALUES
 CREATE TABLE `order` (
   `order_id` int(11) NOT NULL,
   `patient_id` int(11) NOT NULL,
-  `team_id` int(11) NOT NULL,
+  `team_id` int(11) DEFAULT NULL,
   `status_id` int(11) NOT NULL,
   `modality_id` int(11) NOT NULL,
   `image_id` int(11) DEFAULT NULL,
   `appointment` datetime DEFAULT NULL,
   `date_added` datetime NOT NULL DEFAULT current_timestamp(),
-  `date_edited` datetime NOT NULL,
+  `date_edited` datetime NOT NULL DEFAULT current_timestamp(),
   `vist_reason` varchar(150) NOT NULL,
   `imaging_needed` varchar(150) NOT NULL,
   `notes` text DEFAULT NULL,
   `report` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `order`
+--
+
+INSERT INTO `order` (`order_id`, `patient_id`, `team_id`, `status_id`, `modality_id`, `image_id`, `appointment`, `date_added`, `date_edited`, `vist_reason`, `imaging_needed`, `notes`, `report`) VALUES
+(1, 3, NULL, 1, 2, NULL, NULL, '2021-03-12 14:33:12', '2021-03-12 14:33:12', 'broken leg', 'shoot the bones', '', NULL),
+(8, 1, NULL, 1, 2, NULL, NULL, '2021-03-12 17:02:12', '2021-03-12 17:02:12', 'Broken Bone', 'Left Hand Thumb', '', NULL),
+(9, 1, NULL, 1, 1, NULL, NULL, '2021-03-12 17:04:56', '2021-03-12 17:04:56', 'Possible concution', 'Brain Scan', '', NULL),
+(12, 1, NULL, 1, 2, NULL, NULL, '2021-03-12 17:40:25', '2021-03-12 17:40:25', 'Hurt pride', 'Soul Scan', '', NULL),
+(13, 10, NULL, 1, 1, NULL, NULL, '2021-03-12 17:53:05', '2021-03-12 17:53:05', 'Gets light winded', 'Lungs', 'Will die on you be careful.', NULL);
 
 -- --------------------------------------------------------
 
@@ -105,7 +116,13 @@ CREATE TABLE `patient` (
 
 INSERT INTO `patient` (`patient_id`, `doctor_id`, `first_name`, `middle_name`, `last_name`, `email`, `birthday`, `phone_number`, `has_allergy_asthma`, `has_allergy_xraydye`, `has_allergy_mridye`, `has_allergy_latex`, `notes`) VALUES
 (1, 3, 'James', NULL, 'Nobody', 'nbody@gmail.com', '2020-10-01', '345 341 4151', 0, 1, 0, 0, 'Is a nobody.'),
-(3, 4, 'Doug', NULL, 'Smith', 'smith@gmail.com', '2020-10-01', '345 262 2253', 1, 1, 0, 0, '');
+(3, 4, 'Doug', NULL, 'Smith', 'smith@gmail.com', '2020-10-01', '345 262 2253', 1, 1, 0, 0, ''),
+(5, 4, 'Frank', 'A', 'Snout', 'FSnout@gmail.com', '1998-03-11', '888 359 2423', 1, 1, 1, 1, 'Is always cranky.'),
+(6, 3, 'Nathan', 's', 'Alden', 'naalde3055@ung.edu', '2000-09-27', '678 899 9417', 0, 1, 0, 0, ''),
+(7, 4, 'Dave', 'V', 'Roarblen', 'DV@gmail.com', '2021-03-01', '323 414 5153', 0, 1, 0, 1, 'Might be a stoner.'),
+(8, 3, 'Tom', 'S', 'Nook', 'Tnook@gmail.com', '2021-03-02', '734 226 2623', 0, 0, 1, 1, 'Money lover'),
+(9, 3, 'Keven', '', 'Loss', 'Kloss@gmail.com', '2021-03-03', '123 546 6452', 1, 0, 1, 0, 'Is this loss?'),
+(10, 3, 'Dan', 'G', 'Heartright', 'Dheart@gmail.com', '2021-02-02', '456 876 5433', 1, 0, 0, 0, 'Can not breath.');
 
 -- --------------------------------------------------------
 
@@ -279,13 +296,13 @@ ALTER TABLE `modality`
 -- AUTO_INCREMENT for table `order`
 --
 ALTER TABLE `order`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `patient`
 --
 ALTER TABLE `patient`
-  MODIFY `patient_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `patient_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `role`

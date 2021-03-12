@@ -29,14 +29,14 @@ public class addPatient extends HttpServlet {
 	{
 
 		PrintWriter out = response.getWriter();
-		System.out.println("Hello from Servlet");
+		// System.out.println("Hello from Servlet");
 
 		// outputs the request - Commented for now
-		Enumeration<String> params = request.getParameterNames();
-		while(params.hasMoreElements()){
-			String paramName = params.nextElement();
-			out.println("Parameter Name - "+paramName+", Value - "+request.getParameter(paramName));
-		}
+		// Enumeration<String> params = request.getParameterNames();
+		// while(params.hasMoreElements()){
+		// 	String paramName = params.nextElement();
+		// 	out.println("Parameter Name - "+paramName+", Value - "+request.getParameter(paramName));
+		// }
 		try
 		{
 			Connection conn = database.dbConnector.dbConnect();
@@ -46,7 +46,7 @@ public class addPatient extends HttpServlet {
 			//Associates SQL attribute data with form input data from addPatient.jsp
 			//getParameter() returns a String, so numbers and booleans must be casted
 			String query = "INSERT INTO patient (doctor_id, first_name, middle_name, last_name, email, birthday, phone_number, has_allergy_asthma, has_allergy_xraydye, has_allergy_mridye, has_allergy_latex, notes) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
-			stmt = conn.prepareStatement(query);
+			stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 			stmt.setInt(1, Integer.parseInt(request.getParameter("doctor_id")));	//getParameter just strings, must cast for other
 			stmt.setString(2, request.getParameter("first_name"));
 			stmt.setString(3, request.getParameter("middle_name"));
@@ -62,6 +62,15 @@ public class addPatient extends HttpServlet {
 			
 			stmt.executeUpdate();		//executeUpdate() for INSERT
 
+			ResultSet rs=stmt.getGeneratedKeys();
+			int id = 0;
+			if(rs.next()){
+				id=rs.getInt(1);
+			} 
+      String url = "addOrder.jsp?pid="+id;
+      response.sendRedirect(url);
+
+			out.println("Redirect Failed");
 			System.out.println("Added Successfully.");
 			out.println("Added Successfully.");
 			
@@ -80,8 +89,6 @@ public class addPatient extends HttpServlet {
 				
 		out.println("Goodbye from Servlet");
 		System.out.println("Goodbye!");
-
-	//	response.sendRedirect(request.getContextPath() + "/addOrder.jsp?pid=" + ""); TODO: ADD patientID
 
 	}
 }
