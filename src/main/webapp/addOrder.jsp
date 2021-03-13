@@ -10,12 +10,12 @@
     try {
       Connection conn = dbConnector.dbConnect();	
 	    PreparedStatement stmt = null;
-      String query = "INSERT INTO `order` (patient_id, status_id, modality_id, vist_reason, imaging_needed, notes) VALUES (?,?,?,?,?,?);";
+      String query = "INSERT INTO `order` (patient_id, status_id, modality_id, visit_reason, imaging_needed, notes) VALUES (?,?,?,?,?,?);";
       stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
       stmt.setInt(1, Integer.parseInt(request.getParameter("patient_id")));
       stmt.setInt(2, Integer.parseInt(request.getParameter("status_id")));
       stmt.setInt(3, Integer.parseInt(request.getParameter("modality_id")));
-      stmt.setString(4, request.getParameter("vist_reason"));
+      stmt.setString(4, request.getParameter("visit_reason"));
       stmt.setString(5, request.getParameter("imaging_needed"));
       stmt.setString(6, request.getParameter("notes"));
       stmt.executeUpdate();
@@ -25,7 +25,7 @@
 			if(rs.next()){
 				id=rs.getInt(1);
 			} 
-      String url = "index.jsp?oid="+id;
+      String url = "displayOrder.jsp?oid="+id;
       response.sendRedirect(url);
 
       conn.close();
@@ -174,8 +174,8 @@
           <input type="hidden" name="status_id" value="1">
           <div class="form-row">
             <div class="col">
-              <label for="vist_reason">Visit Reason:</label>
-							<input type="text" class="form-control" maxlength="150" name="vist_reason">
+              <label for="visit_reason">Visit Reason:</label>
+							<input type="text" class="form-control" maxlength="150" name="visit_reason">
             </div>
             <div class="col">
               <label for="imaging_needed">Imaging Needed:</label>
@@ -225,7 +225,7 @@
 					// The key name on the left side is the name attribute
 					// of an input field. Validation rules are defined
 					// on the right side
-					vist_reason: "required",
+					visit_reason: "required",
 					imaging_needed: "required",
           modality_id: {
 						required: true,
@@ -234,7 +234,7 @@
 				},
 				// Specify validation error messages
 				messages: {
-					vist_reason: "Please enter the reason for the vist",
+					visit_reason: "Please enter the reason for the vist",
 					imaging_needed: "Please enter what imaging is needed",
 					modality_id: "Please select a modality type",
 				},
