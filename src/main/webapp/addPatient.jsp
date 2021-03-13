@@ -120,6 +120,9 @@
 			</div>
 		</div>
 	</div>
+
+	<br>
+	<br>
 	<script>
 		$(document).ready(function(){
 			$('#phone_number').mask('000 000 0000');

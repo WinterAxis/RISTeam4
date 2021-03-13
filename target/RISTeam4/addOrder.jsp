@@ -217,6 +217,9 @@
       </div>
     </div>
 	</div>
+
+  <br>
+	<br>
 	<script>
 		$(document).ready(function(){
 			$("form[name='order']").validate({

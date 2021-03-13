@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 13, 2021 at 06:04 AM
+-- Generation Time: Mar 14, 2021 at 12:34 AM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 7.4.15
 
@@ -142,8 +142,8 @@ CREATE TABLE `role` (
 
 INSERT INTO `role` (`role_id`, `name`) VALUES
 (1, 'Physician'),
-(2, 'Receptionists'),
-(3, 'Technicians'),
+(2, 'Receptionist'),
+(3, 'Technician'),
 (4, 'Radiologist'),
 (5, 'Admin');
 

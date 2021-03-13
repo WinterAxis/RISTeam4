@@ -4,9 +4,13 @@
 <%@page import="java.sql.*"%>
 <%@page import="database.dbConnector"%>
 
-<%-- Insert On Post --%>
 <% 
   
+  int pid = 0;
+  int mid = 0;
+  String visit_reason = "";
+  String imaging_needed = "";
+  String order_notes = ""; 
   String fName = "";
   String mName = "";
   String lName = "";
@@ -17,21 +21,17 @@
   boolean mridye = false;
   boolean asthma = false;
   boolean latex = false;
-  String pnotes = "";
-
-  int pid = 0;
-  String visit_reason = "";
-  String imaging_needed = "";
-  int mid = 0;
+  String patient_notes = "";
   String modality = "";
-  String onotes = ""; 
 
   Connection conn = dbConnector.dbConnect();	
   PreparedStatement stmt = null;
   ResultSet rs = null;
   if (request.getParameter("oid") != null) {
     try {
-      String query = "SELECT `patient_id`, `modality_id`, `visit_reason`, `imaging_needed`, `notes` FROM `order` WHERE order_id = ?";
+      // inner join statment for table order, paitent, and modality
+
+      String query = "SELECT `order`.`order_id`, `order`.`patient_id`, `order`.`modality_id`, `order`.`visit_reason`, `order`.`imaging_needed`, `order`.`notes` as order_notes, `patient`.`first_name`, `patient`.`middle_name`, `patient`.`last_name`, `patient`.`birthday`, `patient`.`phone_number`, `patient`.`email`, `patient`.`has_allergy_xraydye`, `patient`.`has_allergy_mridye`, `patient`.`has_allergy_asthma`, `patient`.`has_allergy_latex`, `patient`.`notes` as patient_notes, `modality`.`name` as modality_name FROM `order` INNER JOIN `patient` ON `order`.`patient_id`=`patient`.`patient_id` INNER JOIN `modality` ON `order`.`modality_id`=`modality`.`modality_id` WHERE order_id = ?;";
       stmt = conn.prepareStatement(query);
       stmt.setString(1, request.getParameter("oid"));
       rs = stmt.executeQuery();
@@ -42,25 +42,8 @@
           mid = rs.getInt("modality_id");
           visit_reason = rs.getString("visit_reason");
           imaging_needed = rs.getString("imaging_needed");
-          onotes = rs.getString("notes");
-        }
-      }
-      conn.close();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
+          order_notes = rs.getString("order_notes");
 
-    try {
-      conn = dbConnector.dbConnect();	
-      stmt = null;
-      rs = null;
-      String query = "SELECT * FROM patient WHERE patient_id = ?";
-      stmt = conn.prepareStatement(query);
-      stmt.setInt(1, pid);
-      rs = stmt.executeQuery();
-      if (!rs.isBeforeFirst()) {
-      } else {
-        while(rs.next()) { 
           fName = rs.getString("first_name");
           mName = rs.getString("middle_name");
           lName = rs.getString("last_name");
@@ -72,7 +55,10 @@
           mridye = rs.getBoolean("has_allergy_mridye");
           asthma = rs.getBoolean("has_allergy_asthma");
           latex = rs.getBoolean("has_allergy_latex");
-          pnotes = rs.getString("notes");
+          patient_notes = rs.getString("patient_notes");
+
+          modality = rs.getString("modality_name");
+
         }
       }
       conn.close();
@@ -80,24 +66,6 @@
       e.printStackTrace();
     }
 
-    try {
-      conn = dbConnector.dbConnect();	
-      stmt = null;
-      rs = null;
-      String query = "SELECT * FROM modality WHERE modality_id = ?";
-      stmt = conn.prepareStatement(query);
-      stmt.setInt(1, mid);
-      rs = stmt.executeQuery();
-      if (!rs.isBeforeFirst()) {
-      } else {
-        while(rs.next()) { 
-          modality = rs.getString("name");
-        }
-      }
-      conn.close();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
   }
 %>
 <!DOCTYPE html>
@@ -220,7 +188,7 @@
               Patient Notes:
             </div>
             <p>
-              <%=pnotes %>
+              <%=patient_notes %>
             </p>
           </div>
         </div>
@@ -258,13 +226,16 @@
               Order Notes:
             </div>
             <p>
-              <%=onotes %>
+              <%=order_notes %>
             </p>
           </div>
         </div>
       </div>
     </div>
 	</div>
+
+  <br>
+	<br>
 	<script>
 		$(document).ready(function(){
 			

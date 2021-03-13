@@ -111,6 +111,9 @@
       </div>
 		</div>
 	</div>
+
+  <br>
+	<br>
 	<script>
 		$(document).ready(function(){
 			$('#DOB').mask('0000-00-00');
