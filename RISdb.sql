@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 14, 2021 at 12:34 AM
+-- Generation Time: Mar 14, 2021 at 03:52 AM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 7.4.15
 
@@ -32,7 +32,7 @@ CREATE TABLE `image` (
   `label` varchar(50) NOT NULL,
   `path` varchar(150) NOT NULL,
   `user` varchar(50) NOT NULL,
-  `date_added` datetime NOT NULL DEFAULT current_timestamp()
+  `date_added` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -68,9 +68,9 @@ CREATE TABLE `order` (
   `status_id` int(11) NOT NULL,
   `modality_id` int(11) NOT NULL,
   `image_id` int(11) DEFAULT NULL,
-  `appointment` datetime DEFAULT NULL,
-  `date_added` datetime NOT NULL DEFAULT current_timestamp(),
-  `date_edited` datetime NOT NULL DEFAULT current_timestamp(),
+  `appointment` timestamp NULL DEFAULT NULL,
+  `date_added` timestamp NOT NULL DEFAULT current_timestamp(),
+  `date_completed` date DEFAULT NULL,
   `visit_reason` varchar(150) NOT NULL,
   `imaging_needed` varchar(150) NOT NULL,
   `notes` text DEFAULT NULL,
@@ -81,13 +81,13 @@ CREATE TABLE `order` (
 -- Dumping data for table `order`
 --
 
-INSERT INTO `order` (`order_id`, `patient_id`, `team_id`, `status_id`, `modality_id`, `image_id`, `appointment`, `date_added`, `date_edited`, `visit_reason`, `imaging_needed`, `notes`, `report`) VALUES
-(1, 3, NULL, 1, 2, NULL, NULL, '2021-03-12 14:33:12', '2021-03-12 14:33:12', 'broken leg', 'shoot the bones', '', NULL),
-(8, 1, NULL, 1, 2, NULL, NULL, '2021-03-12 17:02:12', '2021-03-12 17:02:12', 'Broken Bone', 'Left Hand Thumb', '', NULL),
-(9, 1, NULL, 1, 1, NULL, NULL, '2021-03-12 17:04:56', '2021-03-12 17:04:56', 'Possible concution', 'Brain Scan', '', NULL),
-(12, 1, NULL, 1, 2, NULL, NULL, '2021-03-12 17:40:25', '2021-03-12 17:40:25', 'Hurt pride', 'Soul Scan', '', NULL),
-(13, 10, NULL, 1, 1, NULL, NULL, '2021-03-12 17:53:05', '2021-03-12 17:53:05', 'Gets light winded', 'Lungs', 'Will die on you be careful.', NULL),
-(14, 3, NULL, 1, 1, NULL, NULL, '2021-03-12 23:39:59', '2021-03-12 23:39:59', 'Ingesting animal hair', 'Lower intestines', 'I have no notes. ', NULL);
+INSERT INTO `order` (`order_id`, `patient_id`, `team_id`, `status_id`, `modality_id`, `image_id`, `appointment`, `date_added`, `date_completed`, `visit_reason`, `imaging_needed`, `notes`, `report`) VALUES
+(1, 3, NULL, 1, 2, NULL, NULL, '2021-03-12 19:33:12', NULL, 'broken leg', 'shoot the bones', '', NULL),
+(8, 1, NULL, 2, 2, NULL, NULL, '2021-03-12 22:02:12', NULL, 'Broken Bone', 'Left Hand Thumb', '', NULL),
+(9, 1, NULL, 3, 1, NULL, NULL, '2021-03-12 22:04:56', NULL, 'Possible concution', 'Brain Scan', 'Imaging is not compleated just set to that status for testing purposes.', NULL),
+(12, 1, 1, 4, 2, NULL, '2021-03-12 22:30:00', '2021-03-12 22:40:25', '2021-03-12', 'Hurt pride', 'Soul Scan', '', NULL),
+(13, 10, NULL, 1, 1, NULL, NULL, '2021-03-12 22:53:05', NULL, 'Gets light winded', 'Lungs', 'Will die on you be careful.', NULL),
+(14, 3, NULL, 1, 1, NULL, NULL, '2021-03-13 04:39:59', NULL, 'Ingesting animal hair', 'Lower intestines', 'I have no notes. ', NULL);
 
 -- --------------------------------------------------------
 
