@@ -74,7 +74,7 @@
 	<%-- include shared head links --%>
 	<jsp:include page="\headLinks.jsp" />		
 	<meta charset="UTF-8">
-	<title>Order Portal: Add</title>
+	<title>Order Portal: Display</title>
 </head>
 <body>
   <%-- include shared nav bar --%>

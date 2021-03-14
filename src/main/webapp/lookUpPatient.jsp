@@ -83,14 +83,14 @@
               <td>
                 <a class="orderlink" href="addOrder.jsp?pid=<%=rs.getString("patient_id") %>"><%=rs.getString("last_name") %></a>
                 <div class="d-md-none">
-                  <a class="text-muted small" href="patientHistory.jsp?pid=<%=rs.getString("patient_id") %>">See more</a>
+                  <a class="text-muted small" href="displayPatient.jsp?pid=<%=rs.getString("patient_id") %>">See more</a>
                 </div>
               </td>
               <td class="d-none d-md-table-cell"><%=rs.getDate("birthday") %></td>
               <td class="d-none d-md-table-cell"><%=rs.getString("phone_number") %></td>
               <td class="d-none d-md-table-cell"><%=rs.getString("email") %></td>
               <td class="text-center d-none d-md-table-cell">
-                  <a class="patientlink" href="patientHistory.jsp?pid=<%=rs.getString("patient_id") %>">
+                  <a class="patientlink" href="displayPatient.jsp?pid=<%=rs.getString("patient_id") %>">
                     <i class="fas fa-info-circle"></i>
                   </a>
               </td>
