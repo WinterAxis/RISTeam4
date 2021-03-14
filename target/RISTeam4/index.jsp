@@ -1,6 +1,18 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page import="java.sql.*"%>
+<%@page import="database.dbConnector"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.util.Date"%>
+
+<%
+	Connection conn = dbConnector.dbConnect();	
+	PreparedStatement stmt = null;
+	ResultSet rs = null;
+	SimpleDateFormat date_formatter = new SimpleDateFormat("yyyy-MM-dd"); 
+	SimpleDateFormat time_formatter = new SimpleDateFormat("hh:mm a"); 
+	String today = date_formatter.format(new Date());
+
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -37,11 +49,49 @@
 								</tr>
 							</thead>
 							<tbody>
+							<% 
+								try {
+									conn = dbConnector.dbConnect();
+									stmt = null;
+									rs = null;
+									String query = "SELECT `order`.`order_id`, `patient`.`first_name`, `patient`.`middle_name`, `patient`.`last_name`, `status`.`name` AS status_name FROM `order` INNER JOIN `patient` ON `order`.`patient_id` = `patient`.`patient_id` INNER JOIN `status` ON `order`.`status_id` = `status`.`status_id` WHERE `order`.`status_id` in (1,2,3) ORDER BY `order`.`status_id`";
+									stmt = conn.prepareStatement(query);
+									rs = stmt.executeQuery();
+									if (!rs.isBeforeFirst()) {
+							%>
 								<tr>
 									<td colspan="6" class="text-center text-muted">
-											No orders
+										No orders
 									</td>
 								</tr>
+							<%
+									} else {
+										while(rs.next()) {
+											String name = rs.getString("first_name");
+											if (rs.getString("middle_name") != null) {
+												name += " "+rs.getString("middle_name");
+											}
+											name += " "+rs.getString("last_name");
+							%>
+								<tr>
+									<td>
+										<a href="displayOrder.jsp?oid=<%=rs.getInt("order_id") %>"><%=rs.getInt("order_id") %></a>
+									</td>
+									<td>
+										<a href="displayOrder.jsp?oid=<%=rs.getInt("order_id") %>"><%=name %></a>
+									</td>
+									<td>
+										<%=rs.getString("status_name") %>
+									</td>
+								</tr>
+							<%      
+										}
+									}
+									conn.close();
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
+							%>
 							<tbody>
 						</table>
 					</div> 
@@ -62,11 +112,49 @@
 								</tr>
 							</thead>
 							<tbody>
+							<% 
+								try {
+									conn = dbConnector.dbConnect();
+									stmt = null;
+									rs = null;
+									String query = "SELECT `order`.`order_id`, `patient`.`first_name`, `patient`.`middle_name`, `patient`.`last_name`, `order`.`date_completed` FROM `order` INNER JOIN `patient` ON `order`.`patient_id` = `patient`.`patient_id` WHERE `order`.`status_id` = 4 ORDER BY `order`.`status_id`";
+									stmt = conn.prepareStatement(query);
+									rs = stmt.executeQuery();
+									if (!rs.isBeforeFirst()) {
+							%>
 								<tr>
 									<td colspan="6" class="text-center text-muted">
-											No orders
+										No orders
 									</td>
 								</tr>
+							<%
+									} else {
+										while(rs.next()) {
+											String name = rs.getString("first_name");
+											if (rs.getString("middle_name") != null) {
+												name += " "+rs.getString("middle_name");
+											}
+											name += " "+rs.getString("last_name");
+							%>
+								<tr>
+									<td>
+										<a href="displayOrder.jsp?oid=<%=rs.getInt("order_id") %>"><%=rs.getInt("order_id") %></a>
+									</td>
+									<td>
+										<a href="displayOrder.jsp?oid=<%=rs.getInt("order_id") %>"><%=name %></a>
+									</td>
+									<td>
+										<%=rs.getDate("date_completed") %>
+									</td>
+								</tr>
+							<%      
+										}
+									}
+									conn.close();
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
+							%>
 							<tbody>
 						</table>
 					</div> 
@@ -82,7 +170,7 @@
 						Today's Appointments
 					</div> 
 					<div class="card-body">
-						<div class="text-muted small mb-3">Todays Date</div> 
+						<div class="text-muted small mb-3"><%=today %></div> 
 						<table class="table">
 							<thead>
 								<tr>
@@ -92,11 +180,50 @@
 								</tr>
 							</thead>
 							<tbody>
+								<% 
+								try {
+									conn = dbConnector.dbConnect();
+									stmt = null;
+									rs = null;
+									String query = "SELECT `order`.`order_id`, `patient`.`first_name`, `patient`.`middle_name`, `patient`.`last_name`, `order`.`appointment` FROM `order` INNER JOIN `patient` ON `order`.`patient_id` = `patient`.`patient_id` WHERE cast(`appointment` as DATE) = ?";
+									stmt = conn.prepareStatement(query);
+									stmt.setString(1, today);
+									rs = stmt.executeQuery();
+									if (!rs.isBeforeFirst()) {
+							%>
 								<tr>
 									<td colspan="6" class="text-center text-muted">
-											No orders
+										No orders
 									</td>
 								</tr>
+							<%
+									} else {
+										while(rs.next()) {
+											String name = rs.getString("first_name");
+											if (rs.getString("middle_name") != null) {
+												name += " "+rs.getString("middle_name");
+											}
+											name += " "+rs.getString("last_name");
+							%>
+								<tr>
+									<td>
+										<a href="displayOrder.jsp?oid=<%=rs.getInt("order_id") %>"><%=rs.getInt("order_id") %></a>
+									</td>
+									<td>
+										<a href="displayOrder.jsp?oid=<%=rs.getInt("order_id") %>"><%=name %></a>
+									</td>
+									<td>
+										<%=time_formatter.format(rs.getTimestamp("appointment")) %>
+									</td>
+								</tr>
+							<%      
+										}
+									}
+									conn.close();
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
+							%>
 							<tbody>
 						</table>
 					</div> 
@@ -118,11 +245,49 @@
 								</tr>
 							</thead>
 							<tbody>
+							<% 
+								try {
+									conn = dbConnector.dbConnect();
+									stmt = null;
+									rs = null;
+									String query = "SELECT `order`.`order_id`, `patient`.`first_name`, `patient`.`middle_name`, `patient`.`last_name`, `order`.`date_added` FROM `order` INNER JOIN `patient` ON `order`.`patient_id` = `patient`.`patient_id` WHERE `appointment` IS NULL ";
+									stmt = conn.prepareStatement(query);
+									rs = stmt.executeQuery();
+									if (!rs.isBeforeFirst()) {
+							%>
 								<tr>
 									<td colspan="6" class="text-center text-muted">
-											No orders
+										No orders
 									</td>
 								</tr>
+							<%
+									} else {
+										while(rs.next()) {
+											String name = rs.getString("first_name");
+											if (rs.getString("middle_name") != null) {
+												name += " "+rs.getString("middle_name");
+											}
+											name += " "+rs.getString("last_name");
+							%>
+								<tr>
+									<td>
+										<a href="displayOrder.jsp?oid=<%=rs.getInt("order_id") %>"><%=rs.getInt("order_id") %></a>
+									</td>
+									<td>
+										<a href="displayOrder.jsp?oid=<%=rs.getInt("order_id") %>"><%=name %></a>
+									</td>
+									<td>
+										<%=rs.getDate("date_added") %>
+									</td>
+								</tr>
+							<%      
+										}
+									}
+									conn.close();
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
+							%>
 							<tbody>
 						</table>
 					</div> 
