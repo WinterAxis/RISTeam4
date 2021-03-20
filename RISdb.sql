@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 14, 2021 at 03:52 AM
+-- Generation Time: Mar 20, 2021 at 10:36 PM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 7.4.15
 
@@ -87,7 +87,9 @@ INSERT INTO `order` (`order_id`, `patient_id`, `team_id`, `status_id`, `modality
 (9, 1, NULL, 3, 1, NULL, NULL, '2021-03-12 22:04:56', NULL, 'Possible concution', 'Brain Scan', 'Imaging is not compleated just set to that status for testing purposes.', NULL),
 (12, 1, 1, 4, 2, NULL, '2021-03-12 22:30:00', '2021-03-12 22:40:25', '2021-03-12', 'Hurt pride', 'Soul Scan', '', NULL),
 (13, 10, NULL, 1, 1, NULL, NULL, '2021-03-12 22:53:05', NULL, 'Gets light winded', 'Lungs', 'Will die on you be careful.', NULL),
-(14, 3, NULL, 1, 1, NULL, NULL, '2021-03-13 04:39:59', NULL, 'Ingesting animal hair', 'Lower intestines', 'I have no notes. ', NULL);
+(14, 3, NULL, 1, 1, NULL, NULL, '2021-03-13 04:39:59', NULL, 'Ingesting animal hair', 'Lower intestines', 'I have no notes. ', NULL),
+(15, 1, NULL, 1, 3, NULL, NULL, '2021-03-14 18:25:46', NULL, 'Bad Hair', 'Skull', 'asdf', NULL),
+(16, 11, NULL, 1, 2, NULL, NULL, '2021-03-17 01:42:11', NULL, 'Broken middle toe', 'Right foot', 'Be careful he has a metal knee and will use it.   ', NULL);
 
 -- --------------------------------------------------------
 
@@ -116,14 +118,15 @@ CREATE TABLE `patient` (
 --
 
 INSERT INTO `patient` (`patient_id`, `doctor_id`, `first_name`, `middle_name`, `last_name`, `email`, `birthday`, `phone_number`, `has_allergy_asthma`, `has_allergy_xraydye`, `has_allergy_mridye`, `has_allergy_latex`, `notes`) VALUES
-(1, 3, 'James', NULL, 'Nobody', 'nbody@gmail.com', '2020-10-01', '345 341 4151', 0, 1, 0, 0, 'Is a nobody.'),
+(1, 3, 'James', 'null', 'Nobody', 'nbody@gmail.com', '2020-10-01', '345 341 4151', 0, 0, 1, 1, 'Is a nobody. Is not loved.'),
 (3, 4, 'Doug', 'Hurbert', 'Smith', 'smith@gmail.com', '2020-10-01', '345 262 2253', 1, 1, 0, 0, ''),
 (5, 4, 'Frank', 'A', 'Snout', 'FSnout@gmail.com', '1998-03-11', '888 359 2423', 1, 1, 1, 1, 'Is always cranky.'),
 (6, 3, 'Nathan', 's', 'Alden', 'naalde3055@ung.edu', '2000-09-27', '678 899 9417', 0, 1, 0, 0, ''),
 (7, 4, 'Dave', 'V', 'Roarblen', 'DV@gmail.com', '2021-03-01', '323 414 5153', 0, 1, 0, 1, 'Might be a stoner.'),
 (8, 3, 'Tom', 'S', 'Nook', 'Tnook@gmail.com', '2021-03-02', '734 226 2623', 0, 0, 1, 1, 'Money lover'),
 (9, 3, 'Keven', '', 'Loss', 'Kloss@gmail.com', '2021-03-03', '123 546 6452', 1, 0, 1, 0, 'Is this loss?'),
-(10, 3, 'Dan', 'G', 'Heartright', 'Dheart@gmail.com', '2021-02-02', '456 876 5433', 1, 0, 0, 0, 'Cannot breath.');
+(10, 3, 'Dan', 'G', 'Heartright', 'Dheart@gmail.com', '2021-02-02', '456 876 5433', 1, 0, 0, 0, 'Cannot breath.'),
+(11, 3, 'John', 'Q', 'Athanes', 'JAthanes@gmail.com', '1969-06-09', '234 567 5434', 1, 1, 1, 1, 'Nice guy.');
 
 -- --------------------------------------------------------
 
@@ -211,10 +214,11 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`user_id`, `role_id`, `username`, `password`, `first_name`, `middle_name`, `last_name`, `email`) VALUES
-(1, 3, 'tech1', 'shouldbesha256hash', 'Jerry', 'd', 'Marsh', 'Jmarsh@gmail.com'),
-(2, 4, 'Radio1', 'shouldbesha256hash', 'Dan', 'Maven', 'Smith', 'DSmith@gmail.com'),
-(3, 1, 'doctor1', 'shouldbesha256hash', 'Tom', '', 'Doctor', 'doctor@Gmail.com'),
-(4, 1, 'doctor2', 'hash', 'Jane', '', 'Foster', 'JFoster@gmail.com');
+(1, 3, 'tech1', '2533dda9233d4762f02fe645f660b9ba17d95bfe4d3f663e299387b56a337a97', 'Jerry', 'd', 'Marsh', 'Jmarsh@gmail.com'),
+(2, 4, 'radio1', 'f142459b01b907e26c54f1ebe339f46464ee3d28a313d52e1ac7a3aaf6bbeeaa', 'Dan', 'Maven', 'Smith', 'DSmith@gmail.com'),
+(3, 1, 'doctor1', '5f0a9c7f624afc79798e66d7fe80c2f0b85553e2d663fbabd45d4c47645e79b0', 'Tom', '', 'Doctor', 'doctor@Gmail.com'),
+(4, 1, 'doctor2', 'a8b466a5ddeeb379556f30243d3bcb7377cc621860c3eca95fb18c23de9fefd9', 'Jane', '', 'Foster', 'JFoster@gmail.com'),
+(5, 5, 'Admin', 'ce5ca673d13b36118d54a7cf13aeb0ca012383bf771e713421b4d1fd841f539a', 'Main', '', 'Admin', 'Admin@gmail.com');
 
 --
 -- Indexes for dumped tables
@@ -297,13 +301,13 @@ ALTER TABLE `modality`
 -- AUTO_INCREMENT for table `order`
 --
 ALTER TABLE `order`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `patient`
 --
 ALTER TABLE `patient`
-  MODIFY `patient_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `patient_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `role`
@@ -327,7 +331,7 @@ ALTER TABLE `team`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables
