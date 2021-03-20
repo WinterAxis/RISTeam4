@@ -5,6 +5,8 @@
 <%@page import="java.util.Date"%>
 
 <%
+	int role = (int) session.getAttribute("role_id");
+
 	Connection conn = dbConnector.dbConnect();	
 	PreparedStatement stmt = null;
 	ResultSet rs = null;
@@ -26,7 +28,7 @@
 	<jsp:include page="\navBar.jsp" />
 
 	<div class="container mt-4">
-		
+		<%=role %>
 		<!-- Physician Section -->
 		<div class="row">
 			<div class="col-12 text-center">
