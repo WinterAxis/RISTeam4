@@ -1,5 +1,12 @@
 <% 
-  String fullname = (String) session.getAttribute("name");
+  String username = "place holder";
+  if (session.getAttribute("username") != null) {
+    username = (String) session.getAttribute("username");
+  }
+  else {
+    response.sendRedirect("login.jsp");
+  }
+  
 %>
 <nav class="navbar navbar-expand-md navbar-light bg-light">
   <a class="navbar-brand" href="/RISTeam4/"><i class="fas fa-x-ray"></i> XamineRIS</a>
@@ -12,9 +19,9 @@
         <a class="nav-link" href="http://localhost/phpmyadmin/">Database</a>
       </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Logout</a>
+          <a class="nav-link" href="logout.jsp">Logout</a>
         </li>
       </ul>
-    <span class="navbar-text">Logged in as <%=fullname %></span>
+    <span class="navbar-text">Logged in as <%=username %></span>
   </div>
 </nav>

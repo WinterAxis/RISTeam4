@@ -11,6 +11,7 @@
 <%
   int role = 0;
   int user = 0;
+  Boolean error = false;
 	Connection conn = dbConnector.dbConnect();	
 	PreparedStatement stmt = null;
 	ResultSet rs = null;
@@ -27,12 +28,13 @@
     }
     String passwordHash = hexString.toString();
 
-    String query = "SELECT `user_id`, `role_id`, `first_name`, `middle_name`, `last_name` FROM `user` WHERE `username` = ? AND `password` = ?";
+    String query = "SELECT `user_id`, `role_id`, `username`, `first_name`, `middle_name`, `last_name` FROM `user` WHERE `username` = ? AND `password` = ?";
     stmt = conn.prepareStatement(query);
     stmt.setString(1, request.getParameter("username"));
     stmt.setString(2, passwordHash);
     rs = stmt.executeQuery();
     if (!rs.isBeforeFirst()) {
+      error = true;
     } else {
       while(rs.next()) { 
         user = rs.getInt("user_id");
@@ -44,11 +46,13 @@
         name += " "+rs.getString("last_name");
         session.setAttribute("user_id", user);
         session.setAttribute("role_id", role);
+        session.setAttribute("username", rs.getString("username"));
         session.setAttribute("name", name);
       }
       response.sendRedirect("index.jsp");
     }
   }
+  
 %>
 <!DOCTYPE html>
 <html>
@@ -70,7 +74,7 @@
               <h1><i class="fas fa-x-ray"></i></h1>
               <h1 class="h3 mb-3 font-weight-normal">Xamine RIS</h1>
               <%
-                if (role == 0) {
+                if (error) {
                   out.print("<h6>Incorect Username or Password</h6>");
                 }
               %>

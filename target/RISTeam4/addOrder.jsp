@@ -6,6 +6,10 @@
 
 <%-- Insert On Post --%>
 <% 
+  if (session.getAttribute("role_id") == null) {
+    response.sendRedirect("login.jsp");
+  }
+
   if (request.getParameter("submit") != null) {
     try {
       Connection conn = dbConnector.dbConnect();	

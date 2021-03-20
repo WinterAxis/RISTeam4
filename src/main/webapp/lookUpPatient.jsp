@@ -3,6 +3,10 @@
 <%@page import="java.sql.*"%>
 <%@page import="database.dbConnector"%>
 <%
+  if (session.getAttribute("role_id") == null) {
+    response.sendRedirect("login.jsp");
+  }
+
 	Connection conn = dbConnector.dbConnect();	
 	PreparedStatement stmt = null;
 	ResultSet rs = null;

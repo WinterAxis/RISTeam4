@@ -5,6 +5,10 @@
 <%@page import="database.dbConnector"%>
 
 <% 
+  if (session.getAttribute("role_id") == null) {
+    response.sendRedirect("login.jsp");
+  }
+
   String fName = "";
   String mName = "";
   String lName = "";

@@ -5,6 +5,9 @@
 <%@page import="database.dbConnector"%>
 
 <% 
+  if (session.getAttribute("role_id") == null) {
+    response.sendRedirect("login.jsp");
+  }
   
   int pid = 0;
   int mid = 0;

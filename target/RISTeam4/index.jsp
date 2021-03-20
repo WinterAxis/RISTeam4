@@ -5,7 +5,13 @@
 <%@page import="java.util.Date"%>
 
 <%
-	int role = (int) session.getAttribute("role_id");
+	int role = 0;
+	if (session.getAttribute("role_id") == null) {
+		response.sendRedirect("login.jsp");
+	}
+	else {
+		role = ((int) session.getAttribute("role_id"));
+	}
 
 	Connection conn = dbConnector.dbConnect();	
 	PreparedStatement stmt = null;
@@ -28,7 +34,10 @@
 	<jsp:include page="\navBar.jsp" />
 
 	<div class="container mt-4">
-		<%=role %>
+
+		<% 
+			if (role == 1 || role == 5) {
+		%>	
 		<!-- Physician Section -->
 		<div class="row">
 			<div class="col-12 text-center">
@@ -163,7 +172,11 @@
 				</div> 
 			</div>
 		</div>
+		<% 
+			}
 
+			if (role == 2 || role == 5) {
+		%>
 		<!-- Receptionist Section -->
 		<div class="row text-center">
 			<div class="col-md-6 mb-4"> 
@@ -296,7 +309,11 @@
 				</div> 
 			</div>
 		</div>
+		<% 
+			}
 
+			if (role == 3 || role == 5) {
+		%>
 		<!-- Technicain Section -->
 		<div class="row text-center">
 			<div class="col">
@@ -326,7 +343,11 @@
 				</div>
 			</div>
 		</div>
+		<% 
+			}
 
+			if (role == 4 || role == 5) {
+		%>
 		<!-- Radiologist Section -->
 		<div class="row text-center">
 			<div class="col">
@@ -356,7 +377,9 @@
 				</div>
 			</div>
 		</div>
-
+		<% 
+			}
+		%>
 
 	</div>
 	
