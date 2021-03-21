@@ -121,7 +121,7 @@
           <div class="card-body">
             <form action="displayPatient.jsp" id="patient" name="patient" method="post">
               <%=error %>
-                <input type="hidden" id="patient_id" name="patient_id" value="<%=patient_id %>">
+              <input type="hidden" id="patient_id" name="patient_id" value="<%=patient_id %>">
               <div class="form-row">
                 <div class="col">
                   <label for="first_name">First Name</label>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 20, 2021 at 10:36 PM
+-- Generation Time: Mar 21, 2021 at 09:59 PM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 7.4.15
 
@@ -82,11 +82,11 @@ CREATE TABLE `order` (
 --
 
 INSERT INTO `order` (`order_id`, `patient_id`, `team_id`, `status_id`, `modality_id`, `image_id`, `appointment`, `date_added`, `date_completed`, `visit_reason`, `imaging_needed`, `notes`, `report`) VALUES
-(1, 3, NULL, 1, 2, NULL, NULL, '2021-03-12 19:33:12', NULL, 'broken leg', 'shoot the bones', '', NULL),
-(8, 1, NULL, 2, 2, NULL, NULL, '2021-03-12 22:02:12', NULL, 'Broken Bone', 'Left Hand Thumb', '', NULL),
-(9, 1, NULL, 3, 1, NULL, NULL, '2021-03-12 22:04:56', NULL, 'Possible concution', 'Brain Scan', 'Imaging is not compleated just set to that status for testing purposes.', NULL),
-(12, 1, 1, 4, 2, NULL, '2021-03-12 22:30:00', '2021-03-12 22:40:25', '2021-03-12', 'Hurt pride', 'Soul Scan', '', NULL),
-(13, 10, NULL, 1, 1, NULL, NULL, '2021-03-12 22:53:05', NULL, 'Gets light winded', 'Lungs', 'Will die on you be careful.', NULL),
+(1, 3, 1, 2, 2, NULL, '2021-03-30 18:45:00', '2021-03-12 19:33:12', NULL, 'broken leg', 'shoot the bones', '', NULL),
+(8, 1, 1, 2, 2, NULL, '2021-07-08 19:30:00', '2021-03-12 22:02:12', NULL, 'Broken Bone', 'Left Hand Thumb', '', NULL),
+(9, 1, 1, 3, 1, NULL, '2021-03-09 16:00:00', '2021-03-12 22:04:56', NULL, 'Possible concution', 'Brain Scan', 'Imaging is not compleated just set to that status for testing purposes.', NULL),
+(12, 1, 1, 4, 2, NULL, '2021-03-03 10:30:00', '2021-03-12 22:40:25', '2021-03-12', 'Hurt pride', 'Soul Scan', '', NULL),
+(13, 10, 1, 2, 1, NULL, '2021-03-21 18:45:00', '2021-03-12 22:53:05', NULL, 'Gets light winded', 'Lungs', 'Will die on you be careful.', NULL),
 (14, 3, NULL, 1, 1, NULL, NULL, '2021-03-13 04:39:59', NULL, 'Ingesting animal hair', 'Lower intestines', 'I have no notes. ', NULL),
 (15, 1, NULL, 1, 3, NULL, NULL, '2021-03-14 18:25:46', NULL, 'Bad Hair', 'Skull', 'asdf', NULL),
 (16, 11, NULL, 1, 2, NULL, NULL, '2021-03-17 01:42:11', NULL, 'Broken middle toe', 'Right foot', 'Be careful he has a metal knee and will use it.   ', NULL);
@@ -190,7 +190,7 @@ CREATE TABLE `team` (
 --
 
 INSERT INTO `team` (`team_id`, `technican_id`, `radiologist_id`, `name`) VALUES
-(1, 1, 2, 'testteam');
+(1, 1, 2, 'test team');
 
 -- --------------------------------------------------------
 
@@ -218,7 +218,8 @@ INSERT INTO `user` (`user_id`, `role_id`, `username`, `password`, `first_name`, 
 (2, 4, 'radio1', 'f142459b01b907e26c54f1ebe339f46464ee3d28a313d52e1ac7a3aaf6bbeeaa', 'Dan', 'Maven', 'Smith', 'DSmith@gmail.com'),
 (3, 1, 'doctor1', '5f0a9c7f624afc79798e66d7fe80c2f0b85553e2d663fbabd45d4c47645e79b0', 'Tom', '', 'Doctor', 'doctor@Gmail.com'),
 (4, 1, 'doctor2', 'a8b466a5ddeeb379556f30243d3bcb7377cc621860c3eca95fb18c23de9fefd9', 'Jane', '', 'Foster', 'JFoster@gmail.com'),
-(5, 5, 'Admin', 'ce5ca673d13b36118d54a7cf13aeb0ca012383bf771e713421b4d1fd841f539a', 'Main', '', 'Admin', 'Admin@gmail.com');
+(5, 5, 'Admin', 'ce5ca673d13b36118d54a7cf13aeb0ca012383bf771e713421b4d1fd841f539a', 'Main', '', 'Admin', 'Admin@gmail.com'),
+(6, 2, 'recep1', '749dd722b5e3ee7addeba8f9455762a797392368625fcc6fbb44d85e49f79b2d', 'Shara', '', 'Middleton', 'SMiddleton@gmail.com');
 
 --
 -- Indexes for dumped tables
@@ -331,7 +332,7 @@ ALTER TABLE `team`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Constraints for dumped tables

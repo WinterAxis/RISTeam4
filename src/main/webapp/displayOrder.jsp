@@ -3,14 +3,24 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@page import="java.sql.*"%>
 <%@page import="database.dbConnector"%>
+<%@page import="java.text.SimpleDateFormat"%>
 
 <% 
+  int role = 0;
   if (session.getAttribute("role_id") == null) {
     response.sendRedirect("login.jsp");
   }
+  else {
+    role = (int) session.getAttribute("role_id");
+  }
   
+
+
+  SimpleDateFormat time_formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm a"); 
   int pid = 0;
+  int sid = 0;
   int mid = 0;
+  String appointment = "None";
   String visit_reason = "";
   String imaging_needed = "";
   String order_notes = ""; 
@@ -26,15 +36,40 @@
   boolean latex = false;
   String patient_notes = "";
   String modality = "";
+  String team = "none";
 
   Connection conn = dbConnector.dbConnect();	
   PreparedStatement stmt = null;
   ResultSet rs = null;
+  if ("schedule".equals(request.getParameter("action"))) {
+    SimpleDateFormat displayFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+    SimpleDateFormat parseFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm a");
+    java.util.Date date = parseFormat.parse(request.getParameter("appointment")+" "+request.getParameter("time"));
+    
+    String query = "UPDATE `order` SET `appointment` = ? WHERE `order`.`order_id` = ?";
+    stmt = conn.prepareStatement(query);
+    stmt.setString(1, displayFormat.format(date));
+    stmt.setString(2, request.getParameter("oid"));
+    stmt.executeUpdate();
+    conn = dbConnector.dbConnect();
+    stmt = null;
+  }
+
+  if ("checkin".equals(request.getParameter("action"))) {
+    String query = "UPDATE `order` SET `team_id` = ?, `status_id` = 2 WHERE `order`.`order_id` = ?";
+    stmt = conn.prepareStatement(query);
+    stmt.setString(1, request.getParameter("team_id"));
+    stmt.setString(2, request.getParameter("oid"));
+    stmt.executeUpdate();
+    conn = dbConnector.dbConnect();
+    stmt = null;
+  }
+
+
   if (request.getParameter("oid") != null) {
     try {
       // inner join statment for table order, paitent, and modality
-
-      String query = "SELECT `order`.`order_id`, `order`.`patient_id`, `order`.`modality_id`, `order`.`visit_reason`, `order`.`imaging_needed`, `order`.`notes` as order_notes, `patient`.`first_name`, `patient`.`middle_name`, `patient`.`last_name`, `patient`.`birthday`, `patient`.`phone_number`, `patient`.`email`, `patient`.`has_allergy_xraydye`, `patient`.`has_allergy_mridye`, `patient`.`has_allergy_asthma`, `patient`.`has_allergy_latex`, `patient`.`notes` as patient_notes, `modality`.`name` as modality_name FROM `order` INNER JOIN `patient` ON `order`.`patient_id`=`patient`.`patient_id` INNER JOIN `modality` ON `order`.`modality_id`=`modality`.`modality_id` WHERE order_id = ?;";
+      String query = "SELECT `order`.`order_id`, `order`.`patient_id`, `order`.`status_id`, `order`.`modality_id`, `order`.`appointment`, `order`.`visit_reason`, `order`.`imaging_needed`, `order`.`notes` as order_notes, `patient`.`first_name`, `patient`.`middle_name`, `patient`.`last_name`, `patient`.`birthday`, `patient`.`phone_number`, `patient`.`email`, `patient`.`has_allergy_xraydye`, `patient`.`has_allergy_mridye`, `patient`.`has_allergy_asthma`, `patient`.`has_allergy_latex`, `patient`.`notes` as patient_notes, `team`.`name` as team_name, `modality`.`name` as modality_name FROM `order` INNER JOIN `patient` ON `order`.`patient_id`=`patient`.`patient_id` INNER JOIN `modality` ON `order`.`modality_id`=`modality`.`modality_id` LEFT JOIN `team` ON `order`.`team_id`=`team`.`team_id` WHERE order_id = ?";
       stmt = conn.prepareStatement(query);
       stmt.setString(1, request.getParameter("oid"));
       rs = stmt.executeQuery();
@@ -42,7 +77,10 @@
       } else {
         while(rs.next()) { 
           pid = rs.getInt("patient_id");
+          sid = rs.getInt("status_id");
           mid = rs.getInt("modality_id");
+          if (rs.getTimestamp("appointment") != null)
+            appointment = time_formatter.format(rs.getTimestamp("appointment"));
           visit_reason = rs.getString("visit_reason");
           imaging_needed = rs.getString("imaging_needed");
           order_notes = rs.getString("order_notes");
@@ -61,6 +99,9 @@
           patient_notes = rs.getString("patient_notes");
 
           modality = rs.getString("modality_name");
+
+          if (rs.getString("team_name") != null)
+            team = rs.getString("team_name");
 
         }
       }
@@ -84,12 +125,95 @@
 	<jsp:include page="\navBar.jsp" />
 	
 	<div class="container mt-4">
-		<div class="display-4 text-center">
-      Order # <%=request.getParameter("oid") %>
+    <div class="text-center">
+      <div class="display-4">
+        Order # <%=request.getParameter("oid") %>
+      </div>
+      <div class="h5">
+        Appointment: <%=appointment %> 
+      </div>
     </div>
+		
+
+    <%
+      if (role == 2 || role == 5) {
+    %>
+    <div class="card mt-4">
+			<div class="card-header text-center">
+				Receptionist Panel
+			</div>
+			<div class="card-body">
+        <form action="displayOrder.jsp" name="schedule" method="post">
+          <input type="hidden" name="action" value="schedule">
+          <input type="hidden" name="oid" value="<%=request.getParameter("oid") %>">
+					<div class="form-row mt-2">
+            <div class="col-9 input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Appointment Time</span>
+              </div>
+              <input type='text' class="form-control" id="appointment" name="appointment" placeholder="yyyy-mm-dd" />
+              <input class="form-control timepicker" name="time">
+            </div>
+            <div class="col-3 text-center">
+              <button type="submit" class="btn btn-primary" name="submit" value="submit">Schedule</button>
+            </div>
+					</div>
+				</form>
+        <% if (sid > 1) { %>
+        <div class="text-center mt-2 h5">
+          Team: <%=team %> 
+        </div>
+        <% } else { %>
+        <form action="displayOrder.jsp" name="checkin" method="post">
+          <input type="hidden" name="action" value="checkin">
+          <input type="hidden" name="oid" value="<%=request.getParameter("oid") %>">
+					<div class="form-row mt-2">
+						<div class="col-9 input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Team</span>
+              </div>
+							<select class="form-control" id="team_id"  name="team_id">
+								<option value="">---------</option>
+								<% 
+								try{
+                  conn = dbConnector.dbConnect();	
+									String query = "SELECT * FROM `team`";
+									stmt = conn.prepareStatement(query);
+									rs = stmt.executeQuery();
+									while(rs.next()){
+								%>
+								<option value="<%=rs.getInt("team_id") %>"><%=rs.getString("name") %></option>
+								<% 
+									}
+									conn.close();
+								} catch (Exception e) {
+									e.printStackTrace();
+								} 
+								%>
+							</select>
+						</div>
+            <div class="col-3 text-center">
+              <button type="submit" class="btn btn-primary" name="submit" value="submit">Check In</button>
+            </div>
+					</div>
+        </form>
+        <% } %> 
+      </div>
+    </div>
+    <% 
+      } 
+    %>
+
 		<div class="card mt-4">
 			<div class="card-header text-center">
-				Patient Information
+        <div class="row">
+          <div class="col-12">
+            Patient Information
+          </div>
+          <div class="col-12">
+            <a href="displayPatient.jsp?pid=<%=pid %>" class="text-muted">View More</a>
+          </div>
+        </div>
 			</div>
 			<div class="card-body">
         <div class="row">
@@ -241,7 +365,64 @@
 	<br>
 	<script>
 		$(document).ready(function(){
-			
+			$('#appointment').mask('0000-00-00');
+      $('#appointment').datepicker({
+				format: "yyyy-mm-dd",
+				orientation: "bottom right",
+				calendarWeeks: true
+			});
+      
+
+      $('.timepicker').timepicker({
+          timeFormat: 'h:mm p',
+          interval: 15,
+          minTime: '10',
+          maxTime: '6:00pm',
+          defaultTime: '11',
+          startTime: '10:00',
+          dynamic: false,
+          dropdown: true,
+          scrollbar: true
+      });
+
+      $("form[name='checkin']").validate({
+				// Specify validation rules
+				rules: {
+					team_id: {
+						required: true,
+						minlength: 1
+					}
+				},
+				// Specify validation error messages
+				messages: {
+					team_id: "Please select a team"
+				},
+				// Make sure the form is submitted to the destination defined
+				// in the "action" attribute of the form when valid
+				submitHandler: function(form) {
+					form.submit();
+				}
+			});
+
+      $("form[name='schedule']").validate({
+				// Specify validation rules
+				rules: {
+					appointment: {
+						required: true,
+						minlength: 1
+					}
+				},
+				// Specify validation error messages
+				messages: {
+					required: "Please provide a appointment",
+					minlength: "Appointment incomplete"
+				},
+				// Make sure the form is submitted to the destination defined
+				// in the "action" attribute of the form when valid
+				submitHandler: function(form) {
+					form.submit();
+				}
+			});
 		});
 		
 	</script>
