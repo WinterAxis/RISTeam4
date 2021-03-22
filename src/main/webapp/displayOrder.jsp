@@ -4,6 +4,7 @@
 <%@page import="java.sql.*"%>
 <%@page import="database.dbConnector"%>
 <%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.util.Date"%>
 
 <% 
   int role = 0;
@@ -24,7 +25,8 @@
   String appointment = "None";
   String visit_reason = "";
   String imaging_needed = "";
-  String order_notes = ""; 
+  String order_notes = "";
+  String report = "";  
   String fName = "";
   String mName = "";
   String lName = "";
@@ -66,11 +68,32 @@
     stmt = null;
   }
 
+  if (request.getParameter("submit_report") != null) {
+    SimpleDateFormat date_formatter = new SimpleDateFormat("yyyy-MM-dd"); 
+    String query = "UPDATE `order` SET `report` = ?, `date_completed` = ?, `status_id` = 4 WHERE `order`.`order_id` = ?";
+    stmt = conn.prepareStatement(query);
+    stmt.setString(1, request.getParameter("report"));
+    stmt.setString(2, date_formatter.format(new Date()));
+    stmt.setString(3, request.getParameter("oid"));
+    stmt.executeUpdate();
+    conn = dbConnector.dbConnect();
+    stmt = null;
+  }
+
+  if (request.getParameter("save_report") != null) {
+    String query = "UPDATE `order` SET `report` = ? WHERE `order`.`order_id` = ?";
+    stmt = conn.prepareStatement(query);
+    stmt.setString(1, request.getParameter("report"));
+    stmt.setString(2, request.getParameter("oid"));
+    stmt.executeUpdate();
+    conn = dbConnector.dbConnect();
+    stmt = null;
+  }
 
   if (request.getParameter("oid") != null) {
     try {
       // inner join statment for table order, paitent, and modality
-      String query = "SELECT `order`.`order_id`, `order`.`patient_id`, `order`.`status_id`, `order`.`modality_id`, `order`.`image_id`, `order`.`appointment`, `order`.`visit_reason`, `order`.`imaging_needed`, `order`.`notes` as order_notes, `patient`.`first_name`, `patient`.`middle_name`, `patient`.`last_name`, `patient`.`birthday`, `patient`.`phone_number`, `patient`.`email`, `patient`.`has_allergy_xraydye`, `patient`.`has_allergy_mridye`, `patient`.`has_allergy_asthma`, `patient`.`has_allergy_latex`, `patient`.`notes` as patient_notes, `team`.`name` as team_name, `modality`.`name` as modality_name FROM `order` INNER JOIN `patient` ON `order`.`patient_id`=`patient`.`patient_id` INNER JOIN `modality` ON `order`.`modality_id`=`modality`.`modality_id` LEFT JOIN `team` ON `order`.`team_id`=`team`.`team_id` WHERE order_id = ?";
+      String query = "SELECT `order`.`order_id`, `order`.`patient_id`, `order`.`status_id`, `order`.`modality_id`, `order`.`image_id`, `order`.`appointment`, `order`.`visit_reason`, `order`.`imaging_needed`, `order`.`notes` as order_notes, `order`.`report`, `patient`.`first_name`, `patient`.`middle_name`, `patient`.`last_name`, `patient`.`birthday`, `patient`.`phone_number`, `patient`.`email`, `patient`.`has_allergy_xraydye`, `patient`.`has_allergy_mridye`, `patient`.`has_allergy_asthma`, `patient`.`has_allergy_latex`, `patient`.`notes` as patient_notes, `team`.`name` as team_name, `modality`.`name` as modality_name FROM `order` INNER JOIN `patient` ON `order`.`patient_id`=`patient`.`patient_id` INNER JOIN `modality` ON `order`.`modality_id`=`modality`.`modality_id` LEFT JOIN `team` ON `order`.`team_id`=`team`.`team_id` WHERE order_id = ?";
       stmt = conn.prepareStatement(query);
       stmt.setString(1, request.getParameter("oid"));
       rs = stmt.executeQuery();
@@ -86,6 +109,8 @@
           visit_reason = rs.getString("visit_reason");
           imaging_needed = rs.getString("imaging_needed");
           order_notes = rs.getString("order_notes");
+          if (rs.getString("report") != null)
+            report = rs.getString("report");
 
           fName = rs.getString("first_name");
           mName = rs.getString("middle_name");
@@ -138,7 +163,7 @@
 		
 
     <%
-      if (role == 2 || role == 5) {
+      if ((role == 2 || role == 5) && sid < 3) {
     %>
     <div class="card mt-4">
 			<div class="card-header text-center">
@@ -407,6 +432,45 @@
       } 
     %>
 
+    <%
+      if ((role == 4 || role == 5) && sid == 3) {
+    %>
+    <div class="card mt-4">
+      <div class="card-header text-center">
+        Radiologist Panel
+      </div>
+      <div class="card-body">
+        <form action="displayOrder.jsp" name="addReport" method="post">
+          <input type="hidden" name="oid" value="<%=request.getParameter("oid") %>">
+          <div class="form-row mt-2">
+            <label for="notes">Notes</label>
+            <textarea class="form-control" id="report" rows="3" maxlength="1000" name="report"><%=report %></textarea>
+          </div>
+          <div class="form-row mt-2">
+            <button type="submit" class="btn btn-primary" name="submit_report" value="submit_report">Submit</button>
+            <button type="submit" class="btn btn-secondary" name="save_report" value="save_report">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <% 
+      } 
+    %>
+    
+    <%
+      if (sid > 3) {
+    %>
+    <div class="card mt-4">
+      <div class="card-header text-center">
+        Radiologist Report
+      </div>
+      <div class="card-body">
+        <textarea class="form-control" id="report" rows="3" maxlength="1000" name="report" disabled><%=report %></textarea>
+      </div>
+    </div>
+    <% 
+      } 
+    %>
 
   </div>
   <br>
@@ -494,6 +558,25 @@
 					form.submit();
 				}
 			});
+
+      $("form[name='addReport']").validate({
+				// Specify validation rules
+				rules: {
+					report: {
+						required: true
+					}
+				},
+				// Specify validation error messages
+				messages: {
+					report: "Please provied add a report"
+				},
+				// Make sure the form is submitted to the destination defined
+				// in the "action" attribute of the form when valid
+				submitHandler: function(form) {
+					form.submit();
+				}
+			});
+
 		});
 		
 	</script>
