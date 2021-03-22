@@ -359,8 +359,37 @@
         </div>
       </div>
     </div>
-	</div>
 
+    <%
+      if (role == 3 || role == 5) {
+    %>
+    <div class="card mt-4">
+      <div class="card-header text-center">
+        Technicain Panel
+      </div>
+      <div class="card-body">
+        <form action="addImage" name="addImage" method="post">
+          <input type="hidden" name="oid" value="<%=request.getParameter("oid") %>">
+          <input type="hidden" name="user" value="<%=(String)session.getAttribute("username") %>">
+          <div class="form-row mt-2">
+            <div class="col-9 input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Photo</span>
+              </div>
+              <input type='text' class="form-control" id="lable" name="lable" placeholder="label" />
+              <input type="file" class="form-control" name="photo" size="50"/>
+            </div>
+            <div class="col-3 text-center">
+              <button type="submit" class="btn btn-primary" name="submit" value="submit">Schedule</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <% 
+      } 
+    %>
+  </div>
   <br>
 	<br>
 	<script>

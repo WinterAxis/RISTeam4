@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 21, 2021 at 09:59 PM
+-- Generation Time: Mar 22, 2021 at 03:11 AM
 -- Server version: 10.4.17-MariaDB
 -- PHP Version: 7.4.15
 
@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `image` (
   `image_id` int(11) NOT NULL,
   `label` varchar(50) NOT NULL,
-  `path` varchar(150) NOT NULL,
+  `photo` mediumblob NOT NULL,
   `user` varchar(50) NOT NULL,
   `date_added` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

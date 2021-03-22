@@ -18,6 +18,7 @@
 	ResultSet rs = null;
 	SimpleDateFormat date_formatter = new SimpleDateFormat("yyyy-MM-dd"); 
 	SimpleDateFormat time_formatter = new SimpleDateFormat("hh:mm a"); 
+	SimpleDateFormat datetime_formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm a"); 
 	String today = date_formatter.format(new Date());
 
 %>
@@ -333,11 +334,58 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td colspan="6" class="text-center text-muted">
+							<% 
+								try {
+									conn = dbConnector.dbConnect();
+									stmt = null;
+									rs = null;
+									String query = "SELECT `order`.`order_id`, `order`.`visit_reason`, `order`.`imaging_needed`, `order`.`appointment`, `patient`.`first_name`, `patient`.`middle_name`, `patient`.`last_name`, `modality`.`name` as modality_name FROM `order` INNER JOIN `modality` ON `order`.`modality_id` = `modality`.`modality_id` INNER JOIN `patient` ON `order`.`patient_id` = `patient`.`patient_id` WHERE `status_id` = 2";
+									stmt = conn.prepareStatement(query);
+									rs = stmt.executeQuery();
+									if (!rs.isBeforeFirst()) {
+							%>
+								<tr>
+									<td colspan="6" class="text-center text-muted">
 										No orders
-								</td>
-							</tr>
+									</td>
+								</tr>
+							<%
+									} else {
+										while(rs.next()) {
+											String name = rs.getString("first_name");
+											if (rs.getString("middle_name") != null) {
+												name += " "+rs.getString("middle_name");
+											}
+											name += " "+rs.getString("last_name");
+							%>
+								<tr>
+									<td>
+										<a href="displayOrder.jsp?oid=<%=rs.getInt("order_id") %>"><%=rs.getInt("order_id") %></a>
+									</td>
+									<td>
+										<a href="displayOrder.jsp?oid=<%=rs.getInt("order_id") %>"><%=name %></a>
+									</td>
+									<td>
+										<%=rs.getString("visit_reason") %>
+									</td>
+									<td>
+										<%=rs.getString("imaging_needed") %>
+									</td>
+									<td>
+										<%=rs.getString("modality_name") %>
+									</td>
+									<td>
+										<%=datetime_formatter.format(rs.getTimestamp("appointment")) %>
+									</td>
+								</tr>
+							<%      
+										}
+									}
+									conn.close();
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
+							%>
 						<tbody>
 					</table>
 				</div>
