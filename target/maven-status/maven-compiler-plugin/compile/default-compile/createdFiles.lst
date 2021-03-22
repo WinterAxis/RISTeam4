@@ -1,5 +1,6 @@
+database\dbConnector.class
 database\addImage.class
 database\addPatient.class
-database\dbConnector.class
+database\getImage.class
 Hello.class
 database\displayPatients.class

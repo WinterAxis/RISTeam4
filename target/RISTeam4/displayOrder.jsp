@@ -20,6 +20,7 @@
   int pid = 0;
   int sid = 0;
   int mid = 0;
+  int iid = 0;
   String appointment = "None";
   String visit_reason = "";
   String imaging_needed = "";
@@ -69,7 +70,7 @@
   if (request.getParameter("oid") != null) {
     try {
       // inner join statment for table order, paitent, and modality
-      String query = "SELECT `order`.`order_id`, `order`.`patient_id`, `order`.`status_id`, `order`.`modality_id`, `order`.`appointment`, `order`.`visit_reason`, `order`.`imaging_needed`, `order`.`notes` as order_notes, `patient`.`first_name`, `patient`.`middle_name`, `patient`.`last_name`, `patient`.`birthday`, `patient`.`phone_number`, `patient`.`email`, `patient`.`has_allergy_xraydye`, `patient`.`has_allergy_mridye`, `patient`.`has_allergy_asthma`, `patient`.`has_allergy_latex`, `patient`.`notes` as patient_notes, `team`.`name` as team_name, `modality`.`name` as modality_name FROM `order` INNER JOIN `patient` ON `order`.`patient_id`=`patient`.`patient_id` INNER JOIN `modality` ON `order`.`modality_id`=`modality`.`modality_id` LEFT JOIN `team` ON `order`.`team_id`=`team`.`team_id` WHERE order_id = ?";
+      String query = "SELECT `order`.`order_id`, `order`.`patient_id`, `order`.`status_id`, `order`.`modality_id`, `order`.`image_id`, `order`.`appointment`, `order`.`visit_reason`, `order`.`imaging_needed`, `order`.`notes` as order_notes, `patient`.`first_name`, `patient`.`middle_name`, `patient`.`last_name`, `patient`.`birthday`, `patient`.`phone_number`, `patient`.`email`, `patient`.`has_allergy_xraydye`, `patient`.`has_allergy_mridye`, `patient`.`has_allergy_asthma`, `patient`.`has_allergy_latex`, `patient`.`notes` as patient_notes, `team`.`name` as team_name, `modality`.`name` as modality_name FROM `order` INNER JOIN `patient` ON `order`.`patient_id`=`patient`.`patient_id` INNER JOIN `modality` ON `order`.`modality_id`=`modality`.`modality_id` LEFT JOIN `team` ON `order`.`team_id`=`team`.`team_id` WHERE order_id = ?";
       stmt = conn.prepareStatement(query);
       stmt.setString(1, request.getParameter("oid"));
       rs = stmt.executeQuery();
@@ -79,6 +80,7 @@
           pid = rs.getInt("patient_id");
           sid = rs.getInt("status_id");
           mid = rs.getInt("modality_id");
+          iid = rs.getInt("image_id");
           if (rs.getTimestamp("appointment") != null)
             appointment = time_formatter.format(rs.getTimestamp("appointment"));
           visit_reason = rs.getString("visit_reason");
@@ -361,14 +363,14 @@
     </div>
 
     <%
-      if (role == 3 || role == 5) {
+      if ((role == 3 || role == 5) && sid == 2) {
     %>
     <div class="card mt-4">
       <div class="card-header text-center">
         Technicain Panel
       </div>
       <div class="card-body">
-        <form action="addImage" name="addImage" method="post">
+        <form action="addImage" name="addImage" method="post" enctype="multipart/form-data">
           <input type="hidden" name="oid" value="<%=request.getParameter("oid") %>">
           <input type="hidden" name="user" value="<%=(String)session.getAttribute("username") %>">
           <div class="form-row mt-2">
@@ -376,7 +378,7 @@
               <div class="input-group-prepend">
                 <span class="input-group-text">Photo</span>
               </div>
-              <input type='text' class="form-control" id="lable" name="lable" placeholder="label" />
+              <input type='text' class="form-control" id="label" name="label" placeholder="label" />
               <input type="file" class="form-control" name="photo" size="50"/>
             </div>
             <div class="col-3 text-center">
@@ -389,6 +391,23 @@
     <% 
       } 
     %>
+
+    <%
+      if (iid != 0) {
+    %>
+    <div class="card mt-4">
+      <div class="card-header text-center">
+        Order Image
+      </div>
+      <div class="card-body">
+        <img class="mx-auto d-block" src="getImage?iid=<%=iid %>"/>
+      </div>
+    </div>
+    <% 
+      } 
+    %>
+
+
   </div>
   <br>
 	<br>
@@ -445,6 +464,29 @@
 				messages: {
 					required: "Please provide a appointment",
 					minlength: "Appointment incomplete"
+				},
+				// Make sure the form is submitted to the destination defined
+				// in the "action" attribute of the form when valid
+				submitHandler: function(form) {
+					form.submit();
+				}
+			});
+
+      $("form[name='addImage']").validate({
+				// Specify validation rules
+				rules: {
+					label: {
+						required: true,
+						minlength: 1
+					},
+          photo: {
+						required: true
+					}
+				},
+				// Specify validation error messages
+				messages: {
+					team_id: "Please label your",
+          photo: "Please add an image"
 				},
 				// Make sure the form is submitted to the destination defined
 				// in the "action" attribute of the form when valid

@@ -14,6 +14,11 @@ import javax.servlet.http.Part;
 @WebServlet("/addImage")
 @MultipartConfig(maxFileSize = 16177215)    // upload file's size up to 16MB
 public class addImage extends HttpServlet {
+  protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+  {
+    //Do POST to pass patient data
+    doPost(request, response);
+  }
 
   protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
       
