@@ -161,6 +161,18 @@
       </div>
     </div>
 		
+    <%
+      if (sid >= 4) {
+    %>
+      <div class="text-center">
+        <form action="reportPDF" name="PDF" method="post">
+          <input type="hidden" name="oid" value="<%=request.getParameter("oid") %>">
+          <button type="submit" class="btn btn-primary" name="submit" value="submit">Report PDF</button>
+        </form>
+      </div>
+    <% 
+      } 
+    %>
 
     <%
       if ((role == 2 || role == 5) && sid < 3) {

@@ -22,6 +22,16 @@ public class reportPDF extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
 	{
+			//Do POST to pass data
+			PrintWriter out = response.getWriter();
+			out.println("This page is intended to be accessed through a POST with patient data to pass to server. ");
+			//doGet(request, response);
+	
+
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
+	{
 		PD4ML pd4ml = new PD4ML();
 		pd4ml.setHtmlWidth(900);
 		pd4ml.readHTML(new URL("http://localhost:8080/RISTeam4/report.jsp?oid="+request.getParameter("oid")));
@@ -37,14 +47,8 @@ public class reportPDF extends HttpServlet {
 		// open the just-generated PDF with a default PDF viewer
 		Desktop.getDesktop().open(pdf);
 
-	}
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException 
-	{
-		//Do POST to pass patient data
-		PrintWriter out = response.getWriter();
-		out.println("This page is intended to be accessed through a POST with patient data to pass to server. Try addPatient.jsp");
-		doGet(request, response);
+		String url = "displayOrder.jsp?oid="+request.getParameter("oid");
+    response.sendRedirect(url);
 	}
 
 }
