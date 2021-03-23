@@ -16,6 +16,17 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
+  <repositories>
+    <repository>
+      <id>pd4ml</id>
+      <name>PD4ML Repository</name>
+      <url>https://pd4ml.tech/maven2/</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+
   <dependencies>
     <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
     <dependency>
@@ -49,6 +60,11 @@
             <artifactId>jsp-api</artifactId>
         </exclusion>
       </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>com.pd4ml</groupId>
+      <artifactId>pd4ml</artifactId>
+      <version>[4.0.0,)</version>
     </dependency>
   </dependencies>
   
