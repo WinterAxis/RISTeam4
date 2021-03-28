@@ -419,7 +419,7 @@
               <input type="file" class="form-control" name="photo" size="50"/>
             </div>
             <div class="col-3 text-center">
-              <button type="submit" class="btn btn-primary" name="submit" value="submit">Schedule</button>
+              <button type="submit" class="btn btn-primary" name="submit" value="submit">Submit</button>
             </div>
           </div>
         </form>
