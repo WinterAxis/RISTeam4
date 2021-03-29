@@ -7,12 +7,12 @@
 <%@page import="java.util.Date"%>
 
 <% 
-  int role = 0;
+  Integer role = 0;
   if (session.getAttribute("role_id") == null) {
     response.sendRedirect("login.jsp");
   }
   else {
-    role = (int) session.getAttribute("role_id");
+    role = (Integer) session.getAttribute("role_id");
   }
   
 

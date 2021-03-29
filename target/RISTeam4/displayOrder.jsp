@@ -7,12 +7,12 @@
 <%@page import="java.util.Date"%>
 
 <% 
-  int role = 0;
+  Integer role = 0;
   if (session.getAttribute("role_id") == null) {
     response.sendRedirect("login.jsp");
   }
   else {
-    role = (int) session.getAttribute("role_id");
+    role = (Integer) session.getAttribute("role_id");
   }
   
 
@@ -419,7 +419,7 @@
               <input type="file" class="form-control" name="photo" size="50"/>
             </div>
             <div class="col-3 text-center">
-              <button type="submit" class="btn btn-primary" name="submit" value="submit">Schedule</button>
+              <button type="submit" class="btn btn-primary" name="submit" value="submit">Submit</button>
             </div>
           </div>
         </form>
