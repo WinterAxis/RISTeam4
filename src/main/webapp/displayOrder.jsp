@@ -416,7 +416,7 @@
                 <span class="input-group-text">Photo</span>
               </div>
               <input type='text' class="form-control" id="label" name="label" placeholder="label" />
-              <input type="file" class="form-control" name="photo" size="50"/>
+              <input type="file" class="form-control" id="photo" name="photo" accept="image/png, image/jpeg, image/jpg" size="50"/>
             </div>
             <div class="col-3 text-center">
               <button type="submit" class="btn btn-primary" name="submit" value="submit">Submit</button>
@@ -556,8 +556,8 @@
 						minlength: 1
 					},
           photo: {
-						required: true
-					}
+            required: true
+          }
 				},
 				// Specify validation error messages
 				messages: {
@@ -589,8 +589,22 @@
 				}
 			});
 
+
+      $("#photo").change(function () {
+        var fileExtension = ['jpeg', 'jpg', 'png'];
+        if ($.inArray($(this).val().split('.').pop().toLowerCase(), fileExtension) == -1) {
+          alert("Only formats are allowed : "+fileExtension.join(', '));
+          $("#photo").val('');
+        }
+        if (this.files[0].size > 16177210) {
+          alert("File is lager than 16MB, please upload a smaller file.");
+          $("#photo").val('');
+        }
+        
+      });
+
 		});
-		
+    
 	</script>
 </body>
 </html>
