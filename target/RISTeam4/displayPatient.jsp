@@ -350,7 +350,8 @@
 			$('#datepicker input').datepicker({
 				format: "yyyy-mm-dd",
 				orientation: "bottom right",
-				calendarWeeks: true
+				calendarWeeks: true,
+        endDate: new Date()
 			});
 
 			$("form[name='patient']").validate({
@@ -359,40 +360,67 @@
 					// The key name on the left side is the name attribute
 					// of an input field. Validation rules are defined
 					// on the right side
-					first_name: {
+					doctor_id: {
 						required: true,
 						minlength: 1
+					},
+					first_name: {
+						required: true,
+						maxlength: 25
+					},
+					middle_name: {
+						maxlength: 25
 					},
 					last_name: {
 						required: true,
-						minlength: 1
+						maxlength: 25
 					},
 					email: {
 						required: true,
+						maxlength: 150,
 						email: true
 					},
 					birthday: {
 						required: true,
-						minlength: 10
+						minlength: 10,
+						dateISO: true
 					},
 					phone_number: {
 						required: true,
-						minlength: 12
+						minlength: 12,
+						maxlength: 32
+					},
+					notes: {
+						maxlength: 1000
 					}
 				},
 				// Specify validation error messages
 				messages: {
-					firstname: "Please enter your first name",
-					lastname: "Please enter your last name",
+					doctor_id: "Please select your referring physician",
+					first_name: {
+						required: "Please enter your first name",
+						minlength: "Name too long"
+					},
+					middle_name: {
+						minlength: "Name too long"
+					},
+					last_name: {
+						required: "Please enter your last name",
+						minlength: "Name too long"
+					},
 					email: "Please enter a valid email address",
 					birthday: {
 						required: "Please provide a birthday",
-						minlength: "Birthday incomplete"
+						minlength: "Birthday incomplete",
+						dateISO: "Please enter a vaild date"
 					},
 					phone_number: {
 						required: "Please provide a phone number",
 						minlength: "Phone number incomplete"
 					},
+					notes: {
+						maxlength: "1000 character limit"
+					}
 				},
 				// Make sure the form is submitted to the destination defined
 				// in the "action" attribute of the form when valid

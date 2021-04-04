@@ -6,6 +6,13 @@
   else {
     response.sendRedirect("login.jsp");
   }
+  Integer role = 0;
+	if (session.getAttribute("role_id") == null) {
+		response.sendRedirect("login.jsp");
+	}
+	else {
+		role = (Integer) session.getAttribute("role_id");
+	}
   
 %>
 <nav class="navbar navbar-expand-md navbar-light bg-light">
@@ -15,13 +22,17 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarsExampleDefault">
     <ul class="navbar-nav mr-auto">
+      <% 
+			  if (role == 5) {
+		  %>	
       <li class="nav-item">
         <a class="nav-link" href="http://localhost/phpmyadmin/">Database</a>
       </li>
-        <li class="nav-item">
-          <a class="nav-link" href="logout.jsp">Logout</a>
-        </li>
-      </ul>
+      <% } %>
+      <li class="nav-item">
+        <a class="nav-link" href="logout.jsp">Logout</a>
+      </li>
+    </ul>
     <span class="navbar-text">Logged in as <%=username %></span>
   </div>
 </nav>

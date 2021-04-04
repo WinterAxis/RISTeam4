@@ -37,7 +37,7 @@
               <div class="input-group-prepend">
                 <span class="input-group-text">Date of Birth</span>
               </div>
-              <input type='text' class="form-control datepicker" id="DOB" name="DOB" placeholder="yyyy-mm-dd" />
+              <input type='text' class="form-control datepicker" id="DOB" name="DOB" data-date-end-date="0d" placeholder="yyyy-mm-dd" />
             </div>
             <div class="col-3">
               <button type="submit" class="btn btn-primary" name="submit" value="submit">Search</button>
@@ -124,7 +124,8 @@
       $('#datepicker input').datepicker({
 				format: "yyyy-mm-dd",
 				orientation: "bottom right",
-				calendarWeeks: true
+				calendarWeeks: true,
+        endDate: new Date()
 			});
       $("form[name='lookUP']").validate({
 				// Specify validation rules
@@ -147,6 +148,7 @@
 				// Make sure the form is submitted to the destination defined
 				// in the "action" attribute of the form when valid
 				submitHandler: function(form) {
+          console.log("here");
 					form.submit();
 				}
 			});

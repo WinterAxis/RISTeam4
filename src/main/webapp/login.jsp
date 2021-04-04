@@ -83,7 +83,7 @@
                   Username<span class="asteriskField">*</span> 
                 </label> 
                 <div class=""> 
-                  <input type="text" name="username" autofocus autocapitalize="none" autocomplete="username" maxlength="150" class="textinput textInput form-control" required id="id_username"> 
+                  <input type="text" name="username" autofocus autocapitalize="none" autocomplete="username" maxlength="50" class="textinput textInput form-control" required id="id_username"> 
                 </div> 
               </div> 
               <div id="div_id_password" class="form-group"> 
@@ -91,7 +91,7 @@
                   Password<span class="asteriskField">*</span> 
                 </label> 
                 <div class=""> 
-                  <input type="password" name="password" autocomplete="current-password" class="textinput textInput form-control" required id="id_password"> 
+                  <input type="password" name="password" autocomplete="current-password" maxlength="100" class="textinput textInput form-control" required id="id_password"> 
                 </div> 
               </div>
           

@@ -190,7 +190,7 @@
               <div class="input-group-prepend">
                 <span class="input-group-text">Appointment Time</span>
               </div>
-              <input type='text' class="form-control" id="appointment" name="appointment" placeholder="yyyy-mm-dd" />
+              <input type='text' class="form-control" id="appointment" name="appointment" data-date-start-date="0d" placeholder="yyyy-mm-dd" />
               <input class="form-control timepicker" name="time">
             </div>
             <div class="col-3 text-center">
@@ -415,7 +415,7 @@
               <div class="input-group-prepend">
                 <span class="input-group-text">Photo</span>
               </div>
-              <input type='text' class="form-control" id="label" name="label" placeholder="label" />
+              <input type='text' class="form-control" id="label" name="label" maxlength="50" placeholder="label" />
               <input type="file" class="form-control" id="photo" name="photo" accept="image/png, image/jpeg, image/jpg" size="50"/>
             </div>
             <div class="col-3 text-center">
