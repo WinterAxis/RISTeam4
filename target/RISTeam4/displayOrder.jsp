@@ -404,7 +404,7 @@
     %>
     <div class="card mt-4">
       <div class="card-header text-center">
-        Technicain Panel
+        Technician Panel
       </div>
       <div class="card-body">
         <form action="addImage" name="addImage" method="post" enctype="multipart/form-data">
