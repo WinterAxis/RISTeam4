@@ -28,7 +28,7 @@
     }
     String passwordHash = hexString.toString();
 
-    String query = "SELECT `user_id`, `role_id`, `username`, `first_name`, `middle_name`, `last_name` FROM `user` WHERE `username` = ? AND `password` = ?";
+    String query = "SELECT `user_id`, `user`.`role_id`, `username`, `first_name`, `middle_name`, `last_name`, `role`.`name` as role_name FROM `user` INNER JOIN `role` ON `user`.`role_id`=`role`.`role_id` WHERE `username` = ? AND `password` = ?";
     stmt = conn.prepareStatement(query);
     stmt.setString(1, request.getParameter("username"));
     stmt.setString(2, passwordHash);
@@ -47,6 +47,7 @@
         session.setAttribute("user_id", user);
         session.setAttribute("role_id", role);
         session.setAttribute("username", rs.getString("username"));
+        session.setAttribute("role_name", rs.getString("role_name"));
         session.setAttribute("name", name);
       }
       response.sendRedirect("index.jsp");

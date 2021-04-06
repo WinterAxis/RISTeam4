@@ -1,7 +1,9 @@
 <% 
   String username = "place holder";
+  String role_name = "place holder";
   if (session.getAttribute("username") != null) {
     username = (String) session.getAttribute("username");
+    role_name = (String) session.getAttribute("role_name");
   }
   else {
     response.sendRedirect("login.jsp");
@@ -33,6 +35,6 @@
         <a class="nav-link" href="logout.jsp">Logout</a>
       </li>
     </ul>
-    <span class="navbar-text">Logged in as <%=username %></span>
+    <span class="navbar-text">Logged in as <%=username %> with role <%=role_name%> </span>
   </div>
 </nav>
